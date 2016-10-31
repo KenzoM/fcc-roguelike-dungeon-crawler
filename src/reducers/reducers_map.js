@@ -1,7 +1,7 @@
 //ACTIONS
 
 let initialState = {
-  map : mapGenerator(5,5) //generates map 5 x 5
+  map : mapGenerator(5,5), //generates map 5 x 5
   player : {
     coordinates : null,
     health : 100 ,
@@ -11,7 +11,7 @@ let initialState = {
   enemies : [],
   weapons : [],
   items : [],
-  occupiedCoordinates = []
+  occupiedCoordinates : []
 }
 
 function placeEnemy(numberofEnemies){
@@ -34,7 +34,8 @@ function mapGenerator(width, height){
 
 
 export default function(state = initialState, action){
-  switch (action.type) {
-    case CELL_CLICK:
+  // switch (action.type) {
+  //   case CELL_CLICK:
   return state;
+  
 }

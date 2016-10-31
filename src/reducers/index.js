@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import map from './reducer_map'
+import map from './reducers_map'
 
 const rootReducer = combineReducers({
   map: map
