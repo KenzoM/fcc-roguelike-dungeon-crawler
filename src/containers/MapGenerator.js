@@ -13,7 +13,12 @@ class MapGenerator extends Component {
 
     return (
       <svg width="500" height="500">
-        ///cell componeont here
+        {this.props.mapGenerated.grid.map( (row,rowIndex) =>{
+          row.map( (cell, colIndex) =>{
+            console.log(cell, rowIndex, colIndex)
+          })
+        })}
+        <rect x="10" y="10" width="200" height="100"/>
       </svg>
     )
   }

@@ -1,7 +1,7 @@
 //ACTIONS
 
 let initialState = {
-  map : mapGenerator(5,5), //generates map 5 x 5
+  grid : mapGenerator(5,5), //generates map 5 x 5
   player : {
     coordinates : null,
     health : 100 ,
@@ -41,7 +41,7 @@ function mapGenerator(width, height){
 export default function(state = initialState, action){
   // switch (action.type) {
   //   case CELL_CLICK:
-  console.log(JSON.stringify(state.map))
+  // console.log(JSON.stringify(state.map))
   return state;
 
 }
