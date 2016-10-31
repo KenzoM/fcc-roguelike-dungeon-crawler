@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-// import Map from '../containers/Map'
+import MapGenerator from '../containers/MapGenerator';
+import style from '../stylesheets/styles.css';
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <h1> Hello World </h1>
+        <MapGenerator />
       </div>
     );
   }

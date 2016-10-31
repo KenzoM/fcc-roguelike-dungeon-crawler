@@ -14,12 +14,12 @@ let initialState = {
   occupiedCoordinates : []
 }
 
-function placeEnemy(numberofEnemies){
-  //randomly gets a coordinates from map property
-  //checks if [x][y] is 1 AND it is not placed anything else
-  //. If it is, assign that coordinate to that enemy
-
-}
+// function placeEnemy(numberofEnemies){
+//   //randomly gets a coordinates from map property
+//   //checks if [x][y] is 1 AND it is not placed anything else
+//   //. If it is, assign that coordinate to that enemy
+//
+// }
 
 function mapGenerator(width, height){
     var result= [];

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import map from './reducers_map'
+import mapGenerated from './reducers_mapGenerator'
 
 const rootReducer = combineReducers({
-  map: map
+  mapGenerated: mapGenerated
 });
 
 export default rootReducer;
