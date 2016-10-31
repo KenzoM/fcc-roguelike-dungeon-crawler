@@ -26,7 +26,12 @@ function mapGenerator(width, height){
     for (var i = 0 ; i < width; i++) {
         result[i] = [];
         for (var j = 0; j < height; j++) {
-            result[i][j] = (Math.floor(Math.random() * 2) )
+            if (i === 0 || i === (width - 1) || j === 0 || j === (height - 1)){
+              result[i][j] = 0
+            }
+            else {
+              result[i][j] = 1
+            }
         }
     }
     return result;
@@ -36,6 +41,7 @@ function mapGenerator(width, height){
 export default function(state = initialState, action){
   // switch (action.type) {
   //   case CELL_CLICK:
+  console.log(JSON.stringify(state.map))
   return state;
-  
+
 }
