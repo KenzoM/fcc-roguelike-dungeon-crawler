@@ -15,6 +15,7 @@ let initialState = {
 }
 
 initialState.grid = mapGenerator(10,10);
+initialState.weapons = placeWeapons()
 
 // function placeEnemy(numberofEnemies){
 //   //randomly gets a coordinates from map property
@@ -38,6 +39,33 @@ function mapGenerator(width, height){
   }
   initialState.occupiedCoordinates =  result;
   return result;
+}
+
+function placeWeapons(){
+  let weapons = [];
+  let availableSpots = []; //filter out whats avaiable in occupiedCoordinates
+  let placementWeapons = []; //list of coordinates that will place weapons
+  initialState.occupiedCoordinates.map( (row, rowIndex) => (
+    row.map( (cell, colIndex) => {
+      if (cell === 1){
+        availableSpots.push([rowIndex,colIndex])
+      }
+    })
+  ))
+  while( placementWeapons.length < 7 ){
+    let rand = availableSpots[Math.floor(Math.random() * availableSpots.length)];
+    placementWeapons.push(rand);
+  }
+  placementWeapons.forEach( coord => {
+    let weapon = {
+      name : "Weapon Name",
+      coords : coord,
+      damage : 3
+    }
+    weapons.push(weapon)
+    initialState.occupiedCoordinates[coord[0]][coord[1]] = 0
+  })
+  console.log(weapons)
 }
 
 

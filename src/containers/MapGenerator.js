@@ -17,6 +17,7 @@ class MapGenerator extends Component {
     )
   }
   render(){
+    console.log(this.props.mapGenerated)
     return (
       <svg width="500" height="500">
         {this.props.mapGenerated.grid.map( (row,rowIndex) =>(
