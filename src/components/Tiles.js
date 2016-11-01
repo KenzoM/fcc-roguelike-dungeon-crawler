@@ -8,8 +8,6 @@ export default class Tiles extends Component {
     const tile = this.props.cell === 0 ? "wall" : "floor";
     const row = this.props.row * 50;
     const col = this.props.column * 50;
-    console.log(row)
-
     return(
       <rect x={row} y={col} width="50" height="50" className={tile}/>
     )
