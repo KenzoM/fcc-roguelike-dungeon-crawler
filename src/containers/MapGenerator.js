@@ -13,7 +13,7 @@ class MapGenerator extends Component {
   }
   renderTiles(cell,row,column){
     return (
-      <Tiles />
+       <Tiles cell={cell} row={row} column={column} />
     )
   }
   render(){

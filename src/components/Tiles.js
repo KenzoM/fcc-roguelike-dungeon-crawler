@@ -5,9 +5,13 @@ export default class Tiles extends Component {
     super(props);
   }
   render(){
-    console.log(this.props)
+    const tile = this.props.cell === 0 ? "wall" : "floor";
+    const row = this.props.row * 100;
+    const col = this.props.column * 100;
+    console.log(row)
+
     return(
-      <rect x="10" y="10" width="100" height="100" stroke="black" fill="white"/>
+      <rect x={row} y={col} width="100" height="100" className={tile}/>
     )
   }
 }
