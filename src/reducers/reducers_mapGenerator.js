@@ -14,12 +14,36 @@ let initialState = {
   occupiedCoordinates : []
 }
 
-// function placeEnemy(numberofEnemies){
-//   //randomly gets a coordinates from map property
-//   //checks if [x][y] is 1 AND it is not placed anything else
-//   //. If it is, assign that coordinate to that enemy
-//
-// }
+function placeEnemies(grid, numberofEnemies){
+  //randomly gets a coordinates from grid property
+  // grid = [[0,0,0,0],[0,1,1,0]...]
+
+  let gridWidth = grid[0].length;
+  let gridHeight = grid.length;
+  let enemyCoords = [];
+
+  // get random coords [0-gridWidth, 0-gridHeight]
+  let getRandomCoords = () => {
+    let randomRow =  Math.floor(Math.random() * gridHeight)
+    let randomCol =  Math.floor(Math.random() * gridWidth)
+    return [randomRow, randomCol]
+  }
+
+  while (enemyCoords.length < numberofEnemies){
+    let randCoords = getRandomCoords();
+
+    // check if this cell is 1 (floor)
+    if (grid[randCoords[0]][randCoords[1]] === 1){
+
+      enemyCoords.push([randomRow, randomCol])
+    }
+  }
+
+  return enemyCoords;
+
+  //checks if [x][y] is 1 AND it is not placed anything else
+  //. If it is, assign that coordinate to that enemy
+}
 
 function mapGenerator(width, height){
     var result= [];
@@ -43,5 +67,4 @@ export default function(state = initialState, action){
   //   case CELL_CLICK:
   // console.log(JSON.stringify(state.map))
   return state;
-
 }
