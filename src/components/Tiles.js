@@ -7,7 +7,7 @@ export default class Tiles extends Component {
   render(){
     console.log(this.props)
     return(
-      <rect x="10" y="10" width="100" height="100"/>
+      <rect x="10" y="10" width="100" height="100" stroke="black" fill="white"/>
     )
   }
 }
