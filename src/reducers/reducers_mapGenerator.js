@@ -15,13 +15,50 @@ let initialState = {
 }
 
 initialState.grid = mapGenerator(10,10);
+initialState.enemies = placeEnemies(initialState.grid, 4);
 
-// function placeEnemy(numberofEnemies){
-//   //randomly gets a coordinates from map property
-//   //checks if [x][y] is 1 AND it is not placed anything else
-//   //. If it is, assign that coordinate to that enemy
-//
-// }
+function placeEnemies(grid, numberofEnemies){
+  // grid = [[0,0,0,0,0],[0,1,1,1,0]...]
+
+  let gridWidth = grid[0].length;
+  let gridHeight = grid.length;
+  let enemyCoords = [];
+  let occupied = initialState.occupiedCoordinates;
+
+  // get random coords [0-gridWidth, 0-gridHeight]
+  let getRandomCoords = () => {
+    let randomRow =  Math.floor(Math.random() * gridHeight)
+    let randomCol =  Math.floor(Math.random() * gridWidth)
+    return [randomRow, randomCol]
+  }
+
+  while (enemyCoords.length < numberofEnemies){
+    let randCoords = getRandomCoords();
+
+    // check if this cell is 1 (floor) AND not in occupiedCoordinates
+    if (grid[randCoords[0]][randCoords[1]] === 1 &&
+        occupied.indexOf(randCoords) === -1){
+      enemyCoords.push(randCoords)
+    }
+
+    // add to occupiedCoordinates
+    initialState.occupiedCoordinates.push(randCoords);
+  }
+
+  let enemies = []
+  for (let i = 0; i < enemyCoords.length; i++) {
+    let enemy = {
+      coords: enemyCoords[i],
+      level: 1,
+      strength: 1
+    }
+    enemies.push(enemy);
+  }
+
+  initialState.enemies = enemies;
+  return enemies;
+}
+
 
 function mapGenerator(width, height){
   var result = [];
@@ -46,5 +83,4 @@ export default function(state = initialState, action){
   //   case CELL_CLICK:
   // console.log(JSON.stringify(state.occupiedCoordinates))
   return state;
-
 }
