@@ -26,16 +26,17 @@ initialState.grid = mapGenerator(10,10);
 function mapGenerator(width, height){
   var result = [];
   for (var i = 0 ; i < width; i++) {
-      result[i] = [];
-      for (var j = 0; j < height; j++) {
-          if (i === 0 || i === (width - 1) || j === 0 || j === (height - 1)){
-            result[i][j] = 0;
-          }
-          else {
-            result[i][j] = 1;
-          }
+    result[i] = [];
+    for (var j = 0; j < height; j++) {
+      if (i === 0 || i === (width - 1) || j === 0 || j === (height - 1)){
+        result[i][j] = 0;
       }
+      else {
+        result[i][j] = 1;
+      }
+    }
   }
+  initialState.occupiedCoordinates =  result;
   return result;
 }
 
