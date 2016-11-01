@@ -4,8 +4,10 @@ svg {
 
 .wall{
   fill: gray;
+  stroke: black;
 }
 
 .floor{
   fill: skyblue;
+  stroke: white;
 }

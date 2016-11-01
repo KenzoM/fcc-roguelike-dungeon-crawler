@@ -1,7 +1,7 @@
 //ACTIONS
 
 let initialState = {
-  grid : mapGenerator(5,5), //generates map 5 x 5
+  grid : mapGenerator(10,10),
   player : {
     coordinates : null,
     health : 100 ,
