@@ -12,6 +12,11 @@ svg {
   stroke: white;
 }
 
+.player {
+  fill: black;
+  stroke-width: white;
+}
+
 .enemy {
   fill: red;
   stroke: black;

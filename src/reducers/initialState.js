@@ -20,7 +20,7 @@ function EnemyConstructor(){
 let initialState = {
   grid : null,
   player : {
-    coordinates : null,
+    coords : null,
     health : 100 ,
     weapon : "Stick",
     expLevel : 1
@@ -51,6 +51,8 @@ initialState.items = placeThings("item", 3);
 initialState.weapons = placeThings("weapon", 2)
 initialState.enemies = placeThings("enemy", 4)
 
+initialState.player = {...initialState.player, coords: placeThings("player", 1)}
+
 function placeThings(thing, numberofThings){
   let things = []; //placeholder for returning an array of objects of "thing"
   let availableCoords = []; //collects all current possible coords from initialState.grid
@@ -72,6 +74,7 @@ function placeThings(thing, numberofThings){
       grid[randCoords[0]][randCoords[1]] = 0
     }
   }
+
   placementThings.forEach(coord => {
     switch (thing){
       case "enemy":
@@ -88,6 +91,9 @@ function placeThings(thing, numberofThings){
         let newItem = new ItemsConstructor();
         newItem.coords = coord
         things.push(newItem)
+        break;
+      case "player":
+        things = coord
         break;
     }
   })

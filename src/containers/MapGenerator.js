@@ -11,6 +11,8 @@ class MapGenerator extends Component {
   }
 
   getCoords(things) {
+
+
     if (this.props.hasOwnProperty(things)) {
       return this.props[things].map((thing) => (
         thing.coords[0]+"-"+thing.coords[1]
@@ -23,11 +25,17 @@ class MapGenerator extends Component {
     let weaponCoords = this.getCoords("weapons")
     let itemCoords = this.getCoords("items")
 
-    let enemy, weapon, item;
+    let enemy, weapon, item, player;
 
     enemyCoords.indexOf(row+"-"+column) > -1 ? enemy = 1 : enemy = 0;
     itemCoords.indexOf(row+"-"+column) > -1 ? item = 1 : item = 0;
     weaponCoords.indexOf(row+"-"+column) > -1 ? weapon = 1 : weapon = 0;
+
+    let playerCoords = this.props.player.coords
+    console.log(playerCoords);
+
+    playerCoords[0] === row && playerCoords[1] === column ?
+      player = 1 : player = 0;
 
     return (
       <Tiles
@@ -37,6 +45,7 @@ class MapGenerator extends Component {
         enemy={enemy}
         weapon={weapon}
         item={item}
+        player = {player}
       />
     )
   };
@@ -63,7 +72,8 @@ function mapStateToProps(state) {
     grid: state.mapGenerated.grid,
     enemies: state.mapGenerated.enemies,
     weapons: state.mapGenerated.weapons,
-    items: state.mapGenerated.items
+    items: state.mapGenerated.items,
+    player: state.mapGenerated.player
   };
 }
 
