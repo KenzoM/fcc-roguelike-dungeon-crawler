@@ -18,28 +18,6 @@ class MapGenerator extends Component {
     // window.addEventListener('keydown', this.playerMove, false);
   }
 
-  // playerMove(event){
-  //   const arrowKeyCode = [37, 38, 39, 40];
-  //   if (arrowKeyCode.includes(event.keyCode)){
-  //     switch (event.keyCode){
-  //       case 37: //left
-  //         console.log('move left');
-  //         break;
-  //       case 38: //up
-  //         console.log('move up')
-  //         break;
-  //       case 39: //right
-  //         console.log('move right')
-  //         break;
-  //       case 40: //down
-  //         console.log('move down')
-  //         break;
-  //     }
-  //   } else {
-  //     event.preventDefault();
-  //   }
-  // }
-
   getCoords(things) {
     if (this.props.hasOwnProperty(things)) {
       return this.props[things].map((thing) => (
