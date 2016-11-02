@@ -11,3 +11,18 @@ svg {
   fill: skyblue;
   stroke: white;
 }
+
+.enemy {
+  fill: red;
+  stroke: black;
+}
+
+.weapon {
+  fill: blue;
+  stroke: white;
+}
+
+.item {
+  fill: green;
+  stroke: white;
+}
