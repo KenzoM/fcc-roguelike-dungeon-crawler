@@ -13,6 +13,12 @@ function ItemsConstructor(){
   this.health = 5;
 };
 
+function EnemyConstructor(){
+  this.coords = null;
+  this.level = 1 ;
+  this.strength = 1;
+}
+
 let initialState = {
   grid : null,
   player : {
@@ -44,72 +50,78 @@ function mapGenerator(width, height){
   return result;
 }
 
-function placeEnemies(grid, numberofEnemies){
-  // grid = [[0,0,0,0,0],[0,1,1,1,0]...]
-  let gridWidth = grid[0].length;
-  let gridHeight = grid.length;
-  let enemyCoords = [];
-
-  // get random coords [0-gridWidth, 0-gridHeight]
-  let getRandomCoords = () => {
-    let randomRow =  Math.floor(Math.random() * gridHeight)
-    let randomCol =  Math.floor(Math.random() * gridWidth)
-    return [randomRow, randomCol]
-  }
-
-  while (enemyCoords.length < numberofEnemies){
-    let randCoords = getRandomCoords();
-
-    // check if this cell is 1 (floor) AND not in occupiedCoordinates
-    if (grid[randCoords[0]][randCoords[1]] === 1){
-          enemyCoords.push(randCoords)
-    }
-
-    // add to grid
-    initialState.grid[randCoords[0]][randCoords[1]] = 0;
-  }
-
-  let enemies = []
-  for (let i = 0; i < enemyCoords.length; i++) {
-    let enemy = {
-      coords: enemyCoords[i],
-      level: 1,
-      strength: 1
-    }
-    enemies.push(enemy);
-  }
-
-  initialState.enemies = enemies;
-  return enemies;
-}
+// function placeEnemies(grid, numberofEnemies){
+//   // grid = [[0,0,0,0,0],[0,1,1,1,0]...]
+//   let gridWidth = grid[0].length;
+//   let gridHeight = grid.length;
+//   let enemyCoords = [];
+//
+//   // get random coords [0-gridWidth, 0-gridHeight]
+//   let getRandomCoords = () => {
+//     let randomRow =  Math.floor(Math.random() * gridHeight)
+//     let randomCol =  Math.floor(Math.random() * gridWidth)
+//     return [randomRow, randomCol]
+//   }
+//
+//   while (enemyCoords.length < numberofEnemies){
+//     let randCoords = getRandomCoords();
+//
+//     // check if this cell is 1 (floor) AND not in occupiedCoordinates
+//     if (grid[randCoords[0]][randCoords[1]] === 1){
+//           enemyCoords.push(randCoords)
+//     }
+//
+//     // add to grid
+//     initialState.grid[randCoords[0]][randCoords[1]] = 0;
+//   }
+//
+//   let enemies = []
+//   for (let i = 0; i < enemyCoords.length; i++) {
+//     let enemy = {
+//       coords: enemyCoords[i],
+//       level: 1,
+//       strength: 1
+//     }
+//     enemies.push(enemy);
+//   }
+//
+//   initialState.enemies = enemies;
+//   return enemies;
+// }
 
 initialState.items = placeThings("item", 3);
 initialState.weapons = placeThings("weapon", 2)
-initialState.enemies = placeEnemies(initialState.grid, 4);
+initialState.enemies = placeThings("enemy", 4)
+// initialState.enemies = placeEnemies(initialState.grid, 4);
 
 function placeThings(thing, numberofThings){
-  let things = [];
-  let availableSpots = [];
-  let placementItems = [];
+  let things = []; //placeholder for returning an array of objects of "thing"
+  let availableCoords = []; //collects all current possible coords from initialState.grid
+  let placementThings = []; //array of coords that will iterate and assign to each things via switch case
   let grid = initialState.grid;
 
   grid.forEach( (row, rowIndex) => (
     row.forEach( (cell, colIndex) => {
       if (cell === 1){
-        availableSpots.push([rowIndex,colIndex])
+        availableCoords.push([rowIndex,colIndex])
       }
     })
   ))
 
-  while( placementItems.length < numberofThings ){
-    let randCoords = availableSpots[Math.floor(Math.random() * availableSpots.length)];
+  while(placementThings.length < numberofThings ){
+    let randCoords = availableCoords[Math.floor(Math.random() * availableCoords.length)];
     if (grid[randCoords[0]][randCoords[1]] === 1){
-      placementItems.push(randCoords);
+      placementThings.push(randCoords);
       grid[randCoords[0]][randCoords[1]] = 0
     }
   }
-  placementItems.forEach( coord => {
+  placementThings.forEach(coord => {
     switch (thing){
+      case "enemy":
+        let newEnemy = new EnemyConstructor();
+        newEnemy.coords = coord
+        things.push(newEnemy)
+        break;
       case "weapon":
         let newWeapon = new WeaponsConstructor();
         newWeapon.coords = coord
