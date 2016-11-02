@@ -10,8 +10,25 @@ class MapGenerator extends Component {
     this.getCoords = this.getCoords.bind(this);
   }
 
+  getCoords(things) {
+    if (this.props.hasOwnProperty(things)) {
+      return this.props[things].map((thing) => (
+        thing.coords[0]+"-"+thing.coords[1]
+      ))
+    }
+  }
 
-  renderTiles(cellVal,row,column,enemy,weapon,item) {
+  renderTiles(cellVal,row,column) {
+    let enemyCoords = this.getCoords("enemies")
+    let weaponCoords = this.getCoords("weapons")
+    let itemCoords = this.getCoords("items")
+
+    let enemy, weapon, item;
+
+    enemyCoords.indexOf(row+"-"+column) > -1 ? enemy = 1 : enemy = 0;
+    itemCoords.indexOf(row+"-"+column) > -1 ? item = 1 : item = 0;
+    weaponCoords.indexOf(row+"-"+column) > -1 ? weapon = 1 : weapon = 0;
+
     return (
       <Tiles
         cell={cellVal}
@@ -24,31 +41,13 @@ class MapGenerator extends Component {
     )
   };
 
-  getCoords(things) {
-    if (this.props.hasOwnProperty(things)) {
-      return this.props[things].map((thing) => (
-        thing.coords[0]+"-"+thing.coords[1]
-      ))
-    }
-  }
-
   render(){
-    let enemyCoords = this.getCoords("enemies")
-    let weaponCoords = this.getCoords("weapons")
-    let itemCoords = this.getCoords("items")
-
     return (
       <svg width="500" height="500">
         {this.props.grid.map( (row, rowIndex) =>(
-          row.map( (cellVal, colIndex) => {
-
-            let enemy, weapon, item;
-            enemyCoords.indexOf(rowIndex+"-"+colIndex) > -1 ? enemy = 1 : enemy = 0;
-            itemCoords.indexOf(rowIndex+"-"+colIndex) > -1 ? item = 1 : item = 0;
-            weaponCoords.indexOf(rowIndex+"-"+colIndex) > -1 ? weapon = 1 : weapon = 0;
-
-            return this.renderTiles(cellVal,rowIndex,colIndex,enemy,weapon,item)
-          })
+          row.map( (cellVal, colIndex) => (
+            this.renderTiles(cellVal,rowIndex,colIndex)
+          ))
         ))}
       </svg>
     )
