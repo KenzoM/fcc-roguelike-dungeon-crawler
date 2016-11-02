@@ -32,8 +32,7 @@ class MapGenerator extends Component {
     weaponCoords.indexOf(row+"-"+column) > -1 ? weapon = 1 : weapon = 0;
 
     let playerCoords = this.props.player.coords
-    console.log(playerCoords);
-
+    
     playerCoords[0] === row && playerCoords[1] === column ?
       player = 1 : player = 0;
 
