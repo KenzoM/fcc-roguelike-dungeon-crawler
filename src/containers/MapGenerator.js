@@ -11,8 +11,6 @@ class MapGenerator extends Component {
   }
 
   getCoords(things) {
-
-
     if (this.props.hasOwnProperty(things)) {
       return this.props[things].map((thing) => (
         thing.coords[0]+"-"+thing.coords[1]
@@ -32,7 +30,7 @@ class MapGenerator extends Component {
     weaponCoords.indexOf(row+"-"+column) > -1 ? weapon = 1 : weapon = 0;
 
     let playerCoords = this.props.player.coords
-    
+
     playerCoords[0] === row && playerCoords[1] === column ?
       player = 1 : player = 0;
 
