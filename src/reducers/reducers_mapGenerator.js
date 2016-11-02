@@ -44,7 +44,7 @@ function placeEnemies(grid, numberofEnemies){
     }
 
     // add to occupiedCoordinates
-    initialState.occupiedCoordinates.push(randCoords);
+    initialState.occupiedCoordinates[randCoords[0]][randCoords[1]] = 0;
   }
 
   let enemies = []
