@@ -1,5 +1,18 @@
 //ACTIONS
 
+//Function Constuctors..
+function WeaponsConstructor(){
+  this.name = "Weapon Name";
+  this.coords = null;
+  this.damage = 3;
+}
+
+function ItemsConstructor(){
+  this.name = "Item Name";
+  this.coords = null;
+  this.health = 5;
+};
+
 let initialState = {
   grid : null,
   player : {
@@ -11,11 +24,9 @@ let initialState = {
   enemies : [],
   weapons : [],
   items : []
-  // occupiedCoordinates : new Array(10).fill(new Array(10).fill(1))
 }
 
 initialState.grid = mapGenerator(10,10);
-
 function mapGenerator(width, height){
   var result = [];
   for (var i = 0 ; i < width; i++) {
@@ -32,10 +43,6 @@ function mapGenerator(width, height){
   // initialState.occupiedCoordinates =  result;
   return result;
 }
-
-initialState.weapons = placeWeapons(3);
-initialState.enemies = placeEnemies(initialState.grid, 4);
-initialState.items = placeItems(2);
 
 function placeEnemies(grid, numberofEnemies){
   // grid = [[0,0,0,0,0],[0,1,1,1,0]...]
@@ -76,13 +83,16 @@ function placeEnemies(grid, numberofEnemies){
   return enemies;
 }
 
-function placeWeapons(numberofWeapons){
-  let weapons = [];
+initialState.items = placeThings("item", 3);
+initialState.weapons = placeThings("weapon", 2)
+initialState.enemies = placeEnemies(initialState.grid, 4);
+
+function placeThings(thing, numberofThings){
+  let things = [];
   let availableSpots = [];
-  let placementWeapons = []; //list of coordinates that will place weapons
+  let placementItems = [];
   let grid = initialState.grid;
 
-  //collect whats available of coords that are not taken in initialState.occupiedCoordinates
   grid.forEach( (row, rowIndex) => (
     row.forEach( (cell, colIndex) => {
       if (cell === 1){
@@ -91,42 +101,7 @@ function placeWeapons(numberofWeapons){
     })
   ))
 
-  //lets place the weapons. When placed, it will update initialState.occupiedCoordinates
-  while( placementWeapons.length < numberofWeapons ){
-    let randCoords = availableSpots[Math.floor(Math.random() * availableSpots.length)];
-    if (grid[randCoords[0]][randCoords[1]] === 1){
-      placementWeapons.push(randCoords);
-      grid[randCoords[0]][randCoords[1]] = 0
-    }
-  }
-  placementWeapons.forEach( coord => {
-    let weapon = {
-      name : "Weapon Name",
-      coords : coord,
-      damage : 3
-    }
-    weapons.push(weapon)
-  })
-  return weapons;
-}
-
-function placeItems(numberofItems){
-  let items = [];
-  let availableSpots = [];
-  let placementItems = []; //list of coordinates that will place items
-  let grid = initialState.grid;
-
-  //collect whats available of coords that are not taken in initialState.occupiedCoordinates
-  grid.forEach( (row, rowIndex) => (
-    row.forEach( (cell, colIndex) => {
-      if (cell === 1){
-        availableSpots.push([rowIndex,colIndex])
-      }
-    })
-  ))
-
-  //lets place the items. When placed, it will update initialState.occupiedCoordinates
-  while( placementItems.length < numberofItems ){
+  while( placementItems.length < numberofThings ){
     let randCoords = availableSpots[Math.floor(Math.random() * availableSpots.length)];
     if (grid[randCoords[0]][randCoords[1]] === 1){
       placementItems.push(randCoords);
@@ -134,16 +109,21 @@ function placeItems(numberofItems){
     }
   }
   placementItems.forEach( coord => {
-    let item = {
-      name : "Item Name",
-      coords : coord,
-      health : 3
+    switch (thing){
+      case "weapon":
+        let newWeapon = new WeaponsConstructor();
+        newWeapon.coords = coord
+        things.push(newWeapon)
+        break;
+      case "item":
+        let newItem = new ItemsConstructor();
+        newItem.coords = coord
+        things.push(newItem)
+        break;
     }
-    items.push(item)
   })
-  return items;
+  return things;
 }
-
 
 export default function(state = initialState, action){
   // switch (action.type) {
