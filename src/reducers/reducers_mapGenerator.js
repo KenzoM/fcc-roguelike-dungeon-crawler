@@ -37,7 +37,7 @@ function placeEnemies(grid, numberofEnemies){
 
     // check if this cell is 1 (floor) AND not in occupiedCoordinates
     if (grid[randCoords[0]][randCoords[1]] === 1 &&
-        occupied[randCoords[0][randCoords[1]] === 1){ // TODO: change this to check occupiedCells grid
+        occupied[randCoords[0][randCoords[1]] === 1){
       enemyCoords.push(randCoords)
     }
 
