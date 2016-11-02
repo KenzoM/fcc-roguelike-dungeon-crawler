@@ -1,8 +1,6 @@
 import initialState from './initialState'
 
 //ACTIONS
-let CELL_CLICK = "CELL_CLICK"
-let GLOBAL_KEY_PRESS = "GLOBAL_KEY_PRESS"
 let PRESS_UP = "PRESS_UP"
 let PRESS_DOWN = "PRESS_DOWN"
 let PRESS_LEFT = "PRESS_LEFT"
