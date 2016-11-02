@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import Tiles from '../components/Tiles';
+
+import { listenToWindowEvent } from '../actions';
 
 class MapGenerator extends Component {
   constructor(props){
     super(props);
     this.renderTiles = this.renderTiles.bind(this);
     this.getCoords = this.getCoords.bind(this);
+    // this.playerMove = this.playerMove.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.listenToWindowEvent();
+    // window.addEventListener('keydown', this.playerMove, false);
   }
 
   getCoords(things) {
@@ -60,9 +68,9 @@ class MapGenerator extends Component {
   }
 }
 
-// function mapDispatchToProps(dispatch){
-//   return bindActionCreators({onCellClick}, dispatch)
-// }
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({listenToWindowEvent}, dispatch)
+}
 
 function mapStateToProps(state) {
   return {
@@ -74,4 +82,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(MapGenerator)
+export default connect(mapStateToProps, mapDispatchToProps)(MapGenerator)
