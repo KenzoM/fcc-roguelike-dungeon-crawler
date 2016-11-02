@@ -12,6 +12,7 @@ export default class Tiles extends Component {
     if (this.props.enemy === 1) { tile = "enemy" }
     if (this.props.weapon === 1) { tile = "weapon" }
     if (this.props.item === 1) { tile = "item" }
+    if (this.props.player === 1) { tile = "player" }
 
     return (
       <rect x={row} y={col} width="50" height="50" className={tile}/>
