@@ -15,7 +15,7 @@ export default class Tiles extends Component {
     if (this.props.player === 1) { tile = "player" }
 
     return (
-      <rect x={row} y={col} width="50" height="50" className={tile}/>
+      <rect x={col} y={row} width="50" height="50" className={tile}/>
     )
   }
 }
