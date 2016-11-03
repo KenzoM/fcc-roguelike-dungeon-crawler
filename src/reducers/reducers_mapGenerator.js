@@ -8,24 +8,43 @@ let PRESS_RIGHT = "PRESS_RIGHT"
 
 
 export default function(state = initialState, action){
-  switch (action.type) {
-    case PRESS_UP:
-      console.log('press up')
-      return {...state}
-      break;
-    case PRESS_DOWN:
-      console.log('press down')
-      return {...state}
-      break;
 
-    case PRESS_LEFT:
-      console.log('press left')
-      return {...state}
-      break;
-    case PRESS_RIGHT:
-      console.log('press right')
-      return {...state}
-      break;
+  //TODO: change grid state, handle out of bounds
+  
+  switch (action.type) {
+    case PRESS_UP: {
+      let newCoords = [state.player.coords[0]-1, state.player.coords[1]]
+      // let newGrid = grid
+      //   .slice()
+
+      return {
+        ...state,
+        player: { ...state.player, coords: newCoords }
+      }
+    }
+    case PRESS_DOWN: {
+      let newCoords = [state.player.coords[0]+1, state.player.coords[1]]
+      return {
+        ...state,
+        player: { ...state.player, coords: newCoords }
+      }
+    }
+
+    case PRESS_LEFT: {
+      let newCoords = [state.player.coords[0], state.player.coords[1]-1]
+      return {
+        ...state,
+        player: { ...state.player, coords: newCoords }
+      }
+    }
+
+    case PRESS_RIGHT: {
+      let newCoords = [state.player.coords[0], state.player.coords[1]+1]
+      return {
+        ...state,
+        player: { ...state.player, coords: newCoords }
+      }
+    }
 
     default:
       return state;
