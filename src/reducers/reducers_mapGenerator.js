@@ -12,8 +12,9 @@ function validateWall(currentGrid,coordinates){
   return currentGrid[x][y] === 0
 }
 
-const getNewGrid = (grid, row, col) => (
-  [
+const getNewGrid = (grid, row, col) => {
+  console.log(row, col)
+  return [
     ...grid.slice(0, row), // new row
     [
       ...grid[row].slice(0, col),
@@ -22,7 +23,7 @@ const getNewGrid = (grid, row, col) => (
     ],
     ...grid.slice(row + 1)
   ]
-)
+}
 
 export default function(state = initialState, action){
 
@@ -30,7 +31,6 @@ export default function(state = initialState, action){
 
   switch (action.type) {
     case PRESS_UP: {
-      Object.freeze(state);
       let currRow = state.player.coords[0]
       let currCol = state.player.coords[1]
       let newGrid = getNewGrid(state.grid, currRow, currCol)
@@ -49,7 +49,6 @@ export default function(state = initialState, action){
     }
 
     case PRESS_DOWN: {
-      Object.freeze(state);
       let currRow = state.player.coords[0]
       let currCol = state.player.coords[1]
       let newGrid = getNewGrid(state.grid, currRow, currCol)
@@ -67,8 +66,6 @@ export default function(state = initialState, action){
     }
 
     case PRESS_LEFT: {
-
-      Object.freeze(state);
       let currRow = state.player.coords[0]
       let currCol = state.player.coords[1]
       let newGrid = getNewGrid(state.grid, currRow, currCol)
@@ -86,8 +83,6 @@ export default function(state = initialState, action){
     }
 
     case PRESS_RIGHT: {
-
-      Object.freeze(state);
       let currRow = state.player.coords[0]
       let currCol = state.player.coords[1]
       let newGrid = getNewGrid(state.grid, currRow, currCol)
