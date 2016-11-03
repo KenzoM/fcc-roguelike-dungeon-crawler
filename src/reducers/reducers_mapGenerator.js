@@ -64,7 +64,6 @@ export default function(state = initialState, action){
           player: { ...state.player, coords: newCoords }}
       }
     }
-
     default:
       return state;
   }

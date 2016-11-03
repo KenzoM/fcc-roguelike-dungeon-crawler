@@ -69,9 +69,19 @@ function placeThings(thing, numberofThings){
 
   while(placementThings.length < numberofThings ){
     let randCoords = availableCoords[Math.floor(Math.random() * availableCoords.length)];
+    let codeValue  // 2 means enemy, 3 means item and 4 means weapons;
+    if (thing === "enemy"){
+      codeValue = 2
+    } else if (thing === "item"){
+      codeValue = 3
+    } else if (thing === "weapon"){
+      codeValue = 4
+    } else {
+      codeValue = 0 ;
+    }
     if (grid[randCoords[0]][randCoords[1]] === 1){
       placementThings.push(randCoords);
-      grid[randCoords[0]][randCoords[1]] = 0
+      grid[randCoords[0]][randCoords[1]] = codeValue;
     }
   }
 
