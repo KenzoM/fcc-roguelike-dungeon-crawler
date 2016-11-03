@@ -12,6 +12,17 @@ function validateWall(currentGrid,coordinates){
   return currentGrid[x][y] === 0
 }
 
+const getNewGrid = (grid, row, col) => (
+  [
+    ...grid.slice(0, row), // new row
+    [
+      ...grid[row].slice(0, col),
+      1, // new val
+      ...grid[row].slice(col + 1)
+    ],
+    ...grid.slice(row + 1)
+  ]
+)
 
 export default function(state = initialState, action){
 
@@ -19,48 +30,76 @@ export default function(state = initialState, action){
 
   switch (action.type) {
     case PRESS_UP: {
-      let newCoords = [state.player.coords[0]-1, state.player.coords[1]]
+      Object.freeze(state);
+      let currRow = state.player.coords[0]
+      let currCol = state.player.coords[1]
+      let newGrid = getNewGrid(state.grid, currRow, currCol)
+
+      let newCoords = [currRow - 1, currCol]
       let thereIsWall = validateWall(state.grid, newCoords);
+
       if (thereIsWall){
         return state
       } else{
         return{
           ...state,
+          grid: newGrid,
           player: { ...state.player, coords: newCoords }}
       }
     }
+
     case PRESS_DOWN: {
-      let newCoords = [state.player.coords[0]+1, state.player.coords[1]]
+      Object.freeze(state);
+      let currRow = state.player.coords[0]
+      let currCol = state.player.coords[1]
+      let newGrid = getNewGrid(state.grid, currRow, currCol)
+
+      let newCoords = [currRow + 1, currCol]
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
       } else{
         return{
           ...state,
+          grid: newGrid,
           player: { ...state.player, coords: newCoords }}
       }
     }
 
     case PRESS_LEFT: {
-      let newCoords = [state.player.coords[0], state.player.coords[1]-1];
+
+      Object.freeze(state);
+      let currRow = state.player.coords[0]
+      let currCol = state.player.coords[1]
+      let newGrid = getNewGrid(state.grid, currRow, currCol)
+
+      let newCoords = [currRow, currCol - 1];
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
       } else{
         return{
           ...state,
+          grid: newGrid,
           player: { ...state.player, coords: newCoords }}
       }
     }
 
     case PRESS_RIGHT: {
-      let newCoords = [state.player.coords[0], state.player.coords[1]+1];
+
+      Object.freeze(state);
+      let currRow = state.player.coords[0]
+      let currCol = state.player.coords[1]
+      let newGrid = getNewGrid(state.grid, currRow, currCol)
+
+      let newCoords = [currRow, currCol + 1];
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
       } else{
         return{
           ...state,
+          grid: newGrid,
           player: { ...state.player, coords: newCoords }}
       }
     }
