@@ -57,7 +57,7 @@ class MapGenerator extends Component {
 
   render(){
     return (
-      <svg width="500" height="500">
+      <svg viewBox="0 0 1000 1000">
         {this.props.grid.map( (row, rowIndex) =>(
           row.map( (cellVal, colIndex) => (
             this.renderTiles(cellVal,rowIndex,colIndex)

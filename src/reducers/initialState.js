@@ -30,7 +30,7 @@ let initialState = {
   items : []
 }
 
-initialState.grid = mapGenerator(10,10);
+initialState.grid = mapGenerator(20,20);
 function mapGenerator(width, height){
   var result = [];
   for (var i = 0 ; i < width; i++) {

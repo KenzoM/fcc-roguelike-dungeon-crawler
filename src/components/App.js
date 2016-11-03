@@ -5,7 +5,7 @@ import style from '../stylesheets/styles.css';
 export default class App extends Component {
   render() {
     return (
-      <div>
+      <div className="app-container">
         <MapGenerator />
       </div>
     );
