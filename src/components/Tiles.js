@@ -15,13 +15,13 @@ export default class Tiles extends Component {
         tile = "floor"
         break;
       case 2:
-        tile = "weapon"
+        tile = "enemy"
         break;
       case 3:
         tile = "item"
         break;
       case 4:
-        tile = "enemy"
+        tile = "weapon"
         break;
     }
 

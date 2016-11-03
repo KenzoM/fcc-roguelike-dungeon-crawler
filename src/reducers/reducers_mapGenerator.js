@@ -12,8 +12,32 @@ function validateWall(currentGrid,coordinates){
   return currentGrid[x][y] === 0
 }
 
+const updatePlayerObject = (state, newCoords) =>{
+  let thing = state.grid[newCoords[0]][newCoords[1]]
+  // console.log(newCoords)
+  switch (thing) {
+    case 2:{
+      break;
+    }
+    case 3:{ //item
+      let playerHealth = state.player.health;
+      let actualItem = state.items.filter( item => {
+        return item.coords[0] === newCoords[0] && item.coords[1] === newCoords[1]
+      })
+      playerHealth += actualItem[0].health;
+      return {...state.player, health: playerHealth, coords: newCoords}
+    }
+    case 4:{
+      break
+    }
+    default:
+      return {...state.player, coords: newCoords}
+
+  }
+}
+
+
 const getNewGrid = (grid, row, col) => {
-  console.log(row, col)
   return [
     ...grid.slice(0, row), // new row
     [
@@ -35,25 +59,26 @@ export default function(state = initialState, action){
       let currCol = state.player.coords[1]
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
-      let newCoords = [currRow - 1, currCol]
+      let newCoords = [currRow - 1, currCol];
+      let playerUpdate = updatePlayerObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
-
       if (thereIsWall){
         return state
       } else{
         return{
           ...state,
           grid: newGrid,
-          player: { ...state.player, coords: newCoords }}
+          player: playerUpdate
+        }
       }
     }
-
     case PRESS_DOWN: {
       let currRow = state.player.coords[0]
       let currCol = state.player.coords[1]
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
-      let newCoords = [currRow + 1, currCol]
+      let newCoords = [currRow + 1, currCol];
+      let playerUpdate = updatePlayerObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -61,16 +86,18 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: { ...state.player, coords: newCoords }}
+          player: playerUpdate
+        }
       }
     }
 
     case PRESS_LEFT: {
-      let currRow = state.player.coords[0]
-      let currCol = state.player.coords[1]
-      let newGrid = getNewGrid(state.grid, currRow, currCol)
+      let currRow = state.player.coords[0];
+      let currCol = state.player.coords[1];
+      let newGrid = getNewGrid(state.grid, currRow, currCol);
 
       let newCoords = [currRow, currCol - 1];
+      let playerUpdate = updatePlayerObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -78,7 +105,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: { ...state.player, coords: newCoords }}
+          player: playerUpdate
+        }
       }
     }
 
@@ -88,6 +116,7 @@ export default function(state = initialState, action){
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
       let newCoords = [currRow, currCol + 1];
+      let playerUpdate = updatePlayerObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -95,7 +124,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: { ...state.player, coords: newCoords }}
+          player: playerUpdate
+        }
       }
     }
     default:
