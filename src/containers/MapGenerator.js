@@ -29,7 +29,6 @@ class MapGenerator extends Component {
   renderTiles(cellVal,row,column) {
 
     let player;
-
     let playerCoords = this.props.player.coords
 
     playerCoords[0] === row && playerCoords[1] === column ? player = 1 : player = 0;

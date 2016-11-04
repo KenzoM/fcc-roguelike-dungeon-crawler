@@ -2,6 +2,23 @@
   max-width: 600px;
 }
 
+.status-bar  ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+.status-bar li {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+}
+
 svg {
   border: 1px solid black;
 }
