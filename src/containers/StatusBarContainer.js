@@ -1,9 +1,8 @@
-import { Component } from 'react';
+import 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 import StatusBar from '../components/StatusBar'
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     player: state.mapGenerated.player
   };
