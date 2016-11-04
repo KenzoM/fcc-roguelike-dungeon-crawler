@@ -18,7 +18,8 @@ const listenToWindowEvent = () => {
           dispatch({ type: 'PRESS_DOWN' });
           break;
         default:
-          event.preventDefault;
+          event.preventDefault();
+          break;
       }
     }
     window.addEventListener('keydown', handleEvent);

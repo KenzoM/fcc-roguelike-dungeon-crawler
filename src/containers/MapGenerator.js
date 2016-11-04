@@ -27,30 +27,19 @@ class MapGenerator extends Component {
   }
 
   renderTiles(cellVal,row,column) {
-    let enemyCoords = this.getCoords("enemies")
-    let weaponCoords = this.getCoords("weapons")
-    let itemCoords = this.getCoords("items")
 
-    let enemy, weapon, item, player;
-
-    enemyCoords.indexOf(row+"-"+column) > -1 ? enemy = 1 : enemy = 0;
-    itemCoords.indexOf(row+"-"+column) > -1 ? item = 1 : item = 0;
-    weaponCoords.indexOf(row+"-"+column) > -1 ? weapon = 1 : weapon = 0;
+    let player;
 
     let playerCoords = this.props.player.coords
 
-    playerCoords[0] === row && playerCoords[1] === column ?
-      player = 1 : player = 0;
+    playerCoords[0] === row && playerCoords[1] === column ? player = 1 : player = 0;
 
     return (
       <Tiles
         cell={cellVal}
         row={row}
         column={column}
-        enemy={enemy}
-        weapon={weapon}
-        item={item}
-        player = {player}
+        player={player}
       />
     )
   };

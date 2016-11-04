@@ -33,7 +33,6 @@ const updatePlayerObject = (state, newCoords) =>{
       })
       playerWeapon = actualWeapon[0].name;
       return {...state.player, weapon: playerWeapon, coords: newCoords}
-      break
     }
     default:
       return {...state.player, coords: newCoords}
