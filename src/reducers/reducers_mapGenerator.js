@@ -39,7 +39,7 @@ const updateGameObject = (state, newCoords) =>{
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
       console.log(resultBattle,'this is resultBattle')
-      return {...state.player}
+      return [{...state.player}]
     }
     case 3:{ //item
       let playerHealth = state.player.health;
