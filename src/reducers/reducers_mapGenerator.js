@@ -56,7 +56,6 @@ const updatePlayerObject = (state, newCoords) =>{
     }
     default:
       return {...state.player, coords: newCoords}
-
   }
 }
 
