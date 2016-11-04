@@ -23,7 +23,9 @@ let initialState = {
     coords : null,
     health : 100 ,
     weapon : "Stick",
-    expLevel : 1
+    exp: 0,
+    level: 1,
+    attack: 10
   },
   enemies : [],
   weapons : [],
