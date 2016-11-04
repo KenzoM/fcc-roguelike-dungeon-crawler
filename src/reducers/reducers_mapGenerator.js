@@ -12,8 +12,20 @@ function validateWall(currentGrid,coordinates){
   return currentGrid[x][y] === 0
 }
 
+const getPlayerAttack = (level, weaponDamage) => {
+  let damage = (level * 40) + (weaponDamage * 30)
+  return damage;
+}
+
+const randPlayerDamage = (damage) => {
+  // randomizes attack damage + or - 20%
+  let max = damage + damage * 0.2
+  let min = damage - damage * 0.2
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function attackEnemy(player,enemy){
-  let playerDamage = player.attack; //write a function that damage randomly
+  let playerDamage = randPlayerDamage(getPlayerAttack(player.weapon, weapon[0].damage)); //write a function that damage randomly
   let enemyDamage = enemy.strength; //etc
   player.health -= enemyDamage;
   enemy.health -= playerDamage;
