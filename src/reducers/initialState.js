@@ -13,7 +13,8 @@ function ItemsConstructor(){
 
 function EnemyConstructor(){
   this.coords = null;
-  this.level = 1 ;
+  this.health = 20;
+  this.level = 1;
   this.strength = 1;
 }
 
@@ -23,7 +24,8 @@ let initialState = {
     coords : null,
     health : 100 ,
     weapon : "Stick",
-    expLevel : 1
+    expLevel : 100,
+    attack: 10
   },
   enemies : [],
   weapons : [],

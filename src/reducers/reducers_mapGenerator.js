@@ -12,11 +12,31 @@ function validateWall(currentGrid,coordinates){
   return currentGrid[x][y] === 0
 }
 
+function attackEnemy(player,enemy){
+  let playerDamage = player.attack; //write a function that damage randomly
+  let enemyDamage = enemy.strength; //etc
+  player.health -= enemyDamage;
+  enemy.health -= playerDamage;
+  // console.log(player.health,enemy.health)
+  if (enemy.health === 0){
+    console.log("ENEMY DIED")
+  } else if (player.health === 0) {
+    console.log("PLAYER DIED")
+  } else{
+    console.log("BATTLE IS STILL ON")
+  }
+}
+
 const updatePlayerObject = (state, newCoords) =>{
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
     case 2:{
-      break;
+      let actualPlayer = state.player;
+      let actualEnemy = state.enemies.filter( enemy => {
+        return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
+      })
+      attackEnemy(actualPlayer,actualEnemy[0])
+      return {...state.player}
     }
     case 3:{ //item
       let playerHealth = state.player.health;
@@ -54,9 +74,6 @@ const getNewGrid = (grid, row, col) => {
 }
 
 export default function(state = initialState, action){
-
-  //TODO: change grid state, handle out of bounds
-
   switch (action.type) {
     case PRESS_UP: {
       let currRow = state.player.coords[0]
