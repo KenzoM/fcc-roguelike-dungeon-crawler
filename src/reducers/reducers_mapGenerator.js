@@ -14,7 +14,6 @@ function validateWall(currentGrid,coordinates){
 
 const updatePlayerObject = (state, newCoords) =>{
   let thing = state.grid[newCoords[0]][newCoords[1]]
-  // console.log(newCoords)
   switch (thing) {
     case 2:{
       break;
@@ -28,6 +27,12 @@ const updatePlayerObject = (state, newCoords) =>{
       return {...state.player, health: playerHealth, coords: newCoords}
     }
     case 4:{
+      let playerWeapon = state.player.weapon;
+      let actualWeapon = state.weapons.filter( weapon => {
+        return weapon.coords[0] === newCoords[0] && weapon.coords[1] === newCoords[1]
+      })
+      playerWeapon = actualWeapon[0].name;
+      return {...state.player, weapon: playerWeapon, coords: newCoords}
       break
     }
     default:
