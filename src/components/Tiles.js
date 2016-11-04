@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 
 export default class Tiles extends Component {
-  constructor(props){
-    super(props);
-  }
+
   render(){
-    // let tile = this.props.cell === 0 ? "wall" : "floor";
     let tile
     switch(this.props.cell) {
       case 0:
@@ -22,6 +19,8 @@ export default class Tiles extends Component {
         break;
       case 4:
         tile = "weapon"
+        break;
+      default:
         break;
     }
 

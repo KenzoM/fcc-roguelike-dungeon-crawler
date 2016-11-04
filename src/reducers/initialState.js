@@ -105,6 +105,8 @@ function placeThings(thing, numberofThings){
       case "player":
         things = coord
         break;
+      default:
+        break;
     }
   })
   return things;
