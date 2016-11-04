@@ -23,8 +23,6 @@ function attackEnemy(player,enemy){
     console.log("PLAYER DIED")
   } else{
     console.log("BATTLE IS STILL ON")
-    console.log(playerHealth)
-    console.log(enemyHealth)
     return([playerHealth, enemyHealth])
   }
 }
@@ -39,7 +37,7 @@ const updateGameObject = (state, newCoords) =>{
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
       console.log(resultBattle,'this is resultBattle')
-      return [{...state.player}]
+      return [{...state.player, health: resultBattle[0]}]
     }
     case 3:{ //item
       let playerHealth = state.player.health;
