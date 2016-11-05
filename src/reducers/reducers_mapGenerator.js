@@ -17,14 +17,7 @@ function attackEnemy(player,enemy){
   let enemyDamage = enemy.strength; //etc
   let playerHealth = player.health - enemyDamage;
   let enemyHealth = enemy.health - playerDamage;
-  if (enemy.health === 0){
-    console.log("ENEMY DIED")
-  } else if (player.health === 0) {
-    console.log("PLAYER DIED")
-  } else{
-    console.log("BATTLE IS STILL ON")
-    return([playerHealth, enemyHealth])
-  }
+  return([playerHealth, enemyHealth])
 }
 
 const updateGameObject = (state, newCoords) =>{
@@ -36,11 +29,21 @@ const updateGameObject = (state, newCoords) =>{
         return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
+      //resultBattle[0] = player's Health
+      //resultBattle[1] = enemy's Health
 
       // actualEnemy[0].health = resultBattle[1]; this mutates for some reason...
       //instead I will return the number value of the actualEnemy's health
 
-      return [{...state.player, health: resultBattle[0]}, resultBattle[1] ]
+      if (resultBattle[1] <= 0){  // case1: if player kills an Enemy
+        return [{...state.player, health: resultBattle[0], coords: newCoords}, resultBattle[1]]
+      } else if (resultBattle[0] <= 0) {
+        console.log("GAME OVER!"); // case2: if player dies
+        return [{...state.player, health: resultBattle[0], coords: newCoords}, resultBattle[1]]
+      }
+      else{ //case no one dies -> update their health
+        return [{...state.player, health: resultBattle[0]}, resultBattle[1]]
+      }
     }
     case 3:{ //item
       let playerHealth = state.player.health;
@@ -77,7 +80,6 @@ const getNewGrid = (grid, row, col) => {
 }
 
 const EnemyObjectUpdate = (enemyState, coord, newHealth) => {
-  //lets make shallow copy
   let newEnemyState = enemyState.slice();
   newEnemyState.map( enemy =>{
     if (enemy.coords[0] === coord[0] && enemy.coords[1] === coord[1]){
