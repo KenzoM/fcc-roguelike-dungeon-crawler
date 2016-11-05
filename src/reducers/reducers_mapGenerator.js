@@ -30,14 +30,17 @@ function attackEnemy(player,enemy){
 const updateGameObject = (state, newCoords) =>{
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
-    case 2:{
+    case 2:{ //engaging with enemy
       let actualPlayer = state.player;
       let actualEnemy = state.enemies.filter( enemy => {
         return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
-      console.log(resultBattle,'this is resultBattle')
-      return [{...state.player, health: resultBattle[0]}]
+
+      // actualEnemy[0].health = resultBattle[1]; this mutates for some reason...
+      //instead I will return the number value of the actualEnemy's health
+
+      return [{...state.player, health: resultBattle[0]}, resultBattle[1] ]
     }
     case 3:{ //item
       let playerHealth = state.player.health;
@@ -47,7 +50,7 @@ const updateGameObject = (state, newCoords) =>{
       playerHealth += actualItem[0].health;
       return [{...state.player, health: playerHealth, coords: newCoords}]
     }
-    case 4:{
+    case 4:{ //weapon
       let playerWeapon = state.player.weapon;
       let actualWeapon = state.weapons.filter( weapon => {
         return weapon.coords[0] === newCoords[0] && weapon.coords[1] === newCoords[1]
@@ -56,7 +59,7 @@ const updateGameObject = (state, newCoords) =>{
       return [{...state.player, weapon: playerWeapon, coords: newCoords}]
     }
     default:
-      return [{...state.player, coords: newCoords}, {...state.enemies}]
+      return [{...state.player, coords: newCoords}, null] //nothing to update for Enemy so null
   }
 }
 
@@ -73,6 +76,17 @@ const getNewGrid = (grid, row, col) => {
   ]
 }
 
+const EnemyObjectUpdate = (enemyState, coord, newHealth) => {
+  //lets make shallow copy
+  let newEnemyState = enemyState.slice();
+  newEnemyState.map( enemy =>{
+    if (enemy.coords[0] === coord[0] && enemy.coords[1] === coord[1]){
+      return enemy.health = newHealth;
+    }
+  })
+  return newEnemyState;
+}
+
 export default function(state = initialState, action){
   switch (action.type) {
     case PRESS_UP: {
@@ -81,7 +95,13 @@ export default function(state = initialState, action){
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
       let newCoords = [currRow - 1, currCol];
+      //gameUpdate[0] = player's state
+      //gameUpdate[1] = enemy's health value (number)
       let gameUpdate = updateGameObject(state, newCoords);
+      let newEnemyHealth = gameUpdate[1]
+      //we use newEnemyHealth to pass in EnemyObjectUpdate to find
+      //the enemy thats in newCoords, change the health of it, and return a new enemyState array.
+      let enemyState = EnemyObjectUpdate(state.enemies, newCoords, newEnemyHealth)
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -89,7 +109,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: gameUpdate[0]
+          player: gameUpdate[0],
+          enemies: enemyState
         }
       }
     }
@@ -100,6 +121,8 @@ export default function(state = initialState, action){
 
       let newCoords = [currRow + 1, currCol];
       let gameUpdate = updateGameObject(state, newCoords);
+      let newEnemyHealth = gameUpdate[1]
+      let enemyState = EnemyObjectUpdate(state.enemies, newCoords, newEnemyHealth)
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -107,7 +130,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: gameUpdate[0]
+          player: gameUpdate[0],
+          enemies: enemyState
         }
       }
     }
@@ -119,6 +143,8 @@ export default function(state = initialState, action){
 
       let newCoords = [currRow, currCol - 1];
       let gameUpdate = updateGameObject(state, newCoords);
+      let newEnemyHealth = gameUpdate[1];
+      let enemyState = EnemyObjectUpdate(state.enemies, newCoords, newEnemyHealth)
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -126,7 +152,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: gameUpdate[0]
+          player: gameUpdate[0],
+          enemies: enemyState
         }
       }
     }
@@ -138,7 +165,8 @@ export default function(state = initialState, action){
 
       let newCoords = [currRow, currCol + 1];
       let gameUpdate = updateGameObject(state, newCoords);
-      console.log(gameUpdate)
+      let newEnemyHealth = gameUpdate[1]
+      let enemyState = EnemyObjectUpdate(state.enemies, newCoords, newEnemyHealth)
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -146,7 +174,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: gameUpdate[0]
+          player: gameUpdate[0],
+          enemies: enemyState
         }
       }
     }
