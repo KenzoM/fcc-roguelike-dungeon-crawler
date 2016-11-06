@@ -37,11 +37,11 @@ const updateGameObject = (state, newCoords) =>{
 
       if (resultBattle[1] <= 0){  // case1: if player kills an Enemy
         return [{...state.player, health: resultBattle[0], coords: newCoords}, resultBattle[1]]
-      } else if (resultBattle[0] <= 0) {
-        console.log("GAME OVER!"); // case2: if player dies
+      } else if (resultBattle[0] <= 0) { // case2: if player dies
+        console.log("GAME OVER") //restart the game ... NEED TO UPDATE THIS
         return [{...state.player, health: resultBattle[0], coords: newCoords}, resultBattle[1]]
       }
-      else{ //case no one dies -> update their health
+      else{ //case no one dies -> update their damaged health
         return [{...state.player, health: resultBattle[0]}, resultBattle[1]]
       }
     }
@@ -51,7 +51,7 @@ const updateGameObject = (state, newCoords) =>{
         return item.coords[0] === newCoords[0] && item.coords[1] === newCoords[1]
       })
       playerHealth += actualItem[0].health;
-      return [{...state.player, health: playerHealth, coords: newCoords}]
+      return [{...state.player, health: playerHealth, coords: newCoords},null]
     }
     case 4:{ //weapon
       let playerWeapon = state.player.weapon;
@@ -59,7 +59,7 @@ const updateGameObject = (state, newCoords) =>{
         return weapon.coords[0] === newCoords[0] && weapon.coords[1] === newCoords[1]
       })
       playerWeapon = actualWeapon[0].name;
-      return [{...state.player, weapon: playerWeapon, coords: newCoords}]
+      return [{...state.player, weapon: playerWeapon, coords: newCoords},null]
     }
     default:
       return [{...state.player, coords: newCoords}, null] //nothing to update for Enemy so null
@@ -81,7 +81,7 @@ const getNewGrid = (grid, row, col) => {
 
 const EnemyObjectUpdate = (enemyState, coord, newHealth) => {
   let newEnemyState = enemyState.slice();
-  newEnemyState.map( enemy =>{
+  newEnemyState.forEach( enemy =>{
     if (enemy.coords[0] === coord[0] && enemy.coords[1] === coord[1]){
       return enemy.health = newHealth;
     }
