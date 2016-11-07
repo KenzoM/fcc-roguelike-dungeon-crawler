@@ -15,7 +15,7 @@ function EnemyConstructor(){
   this.coords = null;
   this.health = 100;
   this.level = 1;
-  this.strength = 20;
+  this.strength = 10;
 }
 
 let initialState = {
