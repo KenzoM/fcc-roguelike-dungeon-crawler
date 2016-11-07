@@ -15,6 +15,8 @@ function EnemyConstructor(){
   this.coords = null;
   this.health = 100;
   this.level = 1;
+  this.strength = 1;
+  this.exp = 50;
   this.strength = 10;
 }
 

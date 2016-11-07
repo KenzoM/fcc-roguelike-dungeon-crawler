@@ -32,6 +32,19 @@ function attackEnemy(player,enemy){
   return([playerHealth, enemyHealth])
 }
 
+function didReachNewLevel(statePlayer, expPoints){
+  let diffExp = statePlayer - expPoints;
+  return (diffExp <= 0)
+}
+
+function levelUpPlayer(statePlayer,  currentEXP){
+  let newStatePlayer = {...statePlayer};
+  newStatePlayer.level++; //level up the player
+  newStatePlayer.attack += 5; //level attack 5 points
+  newStatePlayer.exp = 100; //reset back to 100 exp
+  return [newStatePlayer.attack, newStatePlayer.exp, newStatePlayer.level];
+}
+
 const updateGameObject = (state, newCoords) =>{
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
@@ -42,12 +55,23 @@ const updateGameObject = (state, newCoords) =>{
         return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
-      //resultBattle[0] = player's Health
-      //resultBattle[1] = enemy's Health
       actualEnemy[0].health = resultBattle[1];
 
-      if (resultBattle[1] <= 0){  // case1: if player kills an Enemy
-        return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
+      if (resultBattle[1] <= 0 && resultBattle[0] > 0){  // case1: if player kills an Enemy
+        let statePlayer;
+        let newExp = state.player.exp - actualEnemy[0].exp;
+        //check if players EXP reached to a new level
+        if (didReachNewLevel(state.player.exp, actualEnemy[0].exp)){
+          let newLevel = levelUpPlayer(state.player, newExp);
+          statePlayer = {...state.player, health: resultBattle[0],
+                            coords: newCoords, attack: newLevel[0],
+                            exp: newLevel[1], level: newLevel[2] }
+        } else{
+          statePlayer = {...state.player, health: resultBattle[0],
+                            coords: newCoords, exp: newExp }
+        }
+        return [statePlayer, stateEnemies]
+
       } else if (resultBattle[0] <= 0) { // case2: if player dies
         console.log("GAME OVER") //restart the game ... NEED TO UPDATE THIS
         return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
