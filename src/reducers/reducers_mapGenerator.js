@@ -25,7 +25,7 @@ const randPlayerDamage = (damage) => {
 }
 
 function attackEnemy(player,enemy){
-  let playerDamage = randPlayerDamage(getPlayerAttack(player.weapon, weapon[0].damage)); //write a function that damage randomly
+  let playerDamage = randPlayerDamage(player.attack); //write a function that damage randomly
   let enemyDamage = enemy.strength; //etc
   let playerHealth = player.health - enemyDamage;
   let enemyHealth = enemy.health - playerDamage;
@@ -70,7 +70,8 @@ const updateGameObject = (state, newCoords) =>{
         return weapon.coords[0] === newCoords[0] && weapon.coords[1] === newCoords[1]
       })
       playerWeapon = actualWeapon[0].name;
-      return [{...state.player, weapon: playerWeapon, coords: newCoords},null]
+      let newAttack = getPlayerAttack(state.player.level, actualWeapon[0].damage)
+      return [{...state.player, attack: newAttack, weapon: playerWeapon, coords: newCoords},null]
     }
     default:
       return [{...state.player, coords: newCoords}, null]
