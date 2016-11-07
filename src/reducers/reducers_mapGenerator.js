@@ -17,16 +17,16 @@ const getPlayerAttack = (level, weaponDamage) => {
   return damage;
 }
 
-const randPlayerDamage = (damage) => {
-  // randomizes attack damage + or - 20%
-  let max = damage + damage * 0.2
-  let min = damage - damage * 0.2
+const randDamage = (damage, limit) => {
+  // randomizes attack damage + or - limit %
+  let max = damage + damage * limit
+  let min = damage - damage * limit
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function attackEnemy(player,enemy){
-  let playerDamage = randPlayerDamage(player.attack); //write a function that damage randomly
-  let enemyDamage = enemy.strength; //etc
+  let playerDamage = randDamage(player.attack, 0.2);
+  let enemyDamage = randDamage(enemy.strength, 0.1);
   let playerHealth = player.health - enemyDamage;
   let enemyHealth = enemy.health - playerDamage;
   return([playerHealth, enemyHealth])
