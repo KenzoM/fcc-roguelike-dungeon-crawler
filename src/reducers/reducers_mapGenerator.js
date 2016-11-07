@@ -32,16 +32,14 @@ function attackEnemy(player,enemy){
   return([playerHealth, enemyHealth])
 }
 
-function validateLevel(playerState, expPoints){
-  let diffExp = playerState.exp - expPoints;
+function didReachNewLevel(statePlayer, expPoints){
+  let diffExp = statePlayer.exp - expPoints;
   if (diffExp <= 0){
     console.log('level up')
-    let newLevel = playerState.level + 1;
-    console.log(newLevel)
-    return diffExp
+    return true
   } else{
     console.log('gain exp')
-    return diffExp;
+    return false
   }
 }
 
@@ -62,8 +60,12 @@ const updateGameObject = (state, newCoords) =>{
       if (resultBattle[1] <= 0){  // case1: if player kills an Enemy
         //check if players EXP reached to a new level
 
-        let newExp = validateLevel(state.player, actualEnemy[0].exp)
-        return [{...state.player, health: resultBattle[0], coords: newCoords, exp: newExp}, stateEnemies]
+        if (didReachNewLevel(state.player, actualEnemy[0].exp)){
+          console.log('true')
+        } else{
+          console.log('false')
+        }
+        return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
 
       } else if (resultBattle[0] <= 0) { // case2: if player dies
         console.log("GAME OVER") //restart the game ... NEED TO UPDATE THIS
