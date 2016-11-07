@@ -13,10 +13,11 @@ function ItemsConstructor(){
 
 function EnemyConstructor(){
   this.coords = null;
-  this.health = 20;
+  this.health = 100;
   this.level = 1;
   this.strength = 1;
   this.exp = 50;
+  this.strength = 10;
 }
 
 let initialState = {
