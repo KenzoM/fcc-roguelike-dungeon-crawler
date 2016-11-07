@@ -27,28 +27,34 @@ const randPlayerDamage = (damage) => {
 function attackEnemy(player,enemy){
   let playerDamage = randPlayerDamage(getPlayerAttack(player.weapon, weapon[0].damage)); //write a function that damage randomly
   let enemyDamage = enemy.strength; //etc
-  player.health -= enemyDamage;
-  enemy.health -= playerDamage;
-  // console.log(player.health,enemy.health)
-  if (enemy.health === 0){
-    console.log("ENEMY DIED")
-  } else if (player.health === 0) {
-    console.log("PLAYER DIED")
-  } else{
-    console.log("BATTLE IS STILL ON")
-  }
+  let playerHealth = player.health - enemyDamage;
+  let enemyHealth = enemy.health - playerDamage;
+  return([playerHealth, enemyHealth])
 }
 
-const updatePlayerObject = (state, newCoords) =>{
+const updateGameObject = (state, newCoords) =>{
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
-    case 2:{
+    case 2:{ //engaging with enemy
+      let stateEnemies = state.enemies.map(enemy => Object.assign({}, enemy)); //MAKE SHALLOW COPY
       let actualPlayer = state.player;
-      let actualEnemy = state.enemies.filter( enemy => {
+      let actualEnemy = stateEnemies.filter( enemy => {
         return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
       })
-      attackEnemy(actualPlayer,actualEnemy[0])
-      return {...state.player}
+      let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
+      //resultBattle[0] = player's Health
+      //resultBattle[1] = enemy's Health
+      actualEnemy[0].health = resultBattle[1];
+
+      if (resultBattle[1] <= 0){  // case1: if player kills an Enemy
+        return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
+      } else if (resultBattle[0] <= 0) { // case2: if player dies
+        console.log("GAME OVER") //restart the game ... NEED TO UPDATE THIS
+        return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
+      }
+      else{ //case no one dies -> update their damaged health
+        return [{...state.player, health: resultBattle[0]}, stateEnemies]
+      }
     }
     case 3:{ //item
       let playerHealth = state.player.health;
@@ -56,21 +62,20 @@ const updatePlayerObject = (state, newCoords) =>{
         return item.coords[0] === newCoords[0] && item.coords[1] === newCoords[1]
       })
       playerHealth += actualItem[0].health;
-      return {...state.player, health: playerHealth, coords: newCoords}
+      return [{...state.player, health: playerHealth, coords: newCoords},null]
     }
-    case 4:{
+    case 4:{ //weapon
       let playerWeapon = state.player.weapon;
       let actualWeapon = state.weapons.filter( weapon => {
         return weapon.coords[0] === newCoords[0] && weapon.coords[1] === newCoords[1]
       })
       playerWeapon = actualWeapon[0].name;
-      return {...state.player, weapon: playerWeapon, coords: newCoords}
+      return [{...state.player, weapon: playerWeapon, coords: newCoords},null]
     }
     default:
-      return {...state.player, coords: newCoords}
+      return [{...state.player, coords: newCoords}, null]
   }
 }
-
 
 const getNewGrid = (grid, row, col) => {
   return [
@@ -92,7 +97,9 @@ export default function(state = initialState, action){
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
       let newCoords = [currRow - 1, currCol];
-      let playerUpdate = updatePlayerObject(state, newCoords);
+      let gameUpdate = updateGameObject(state, newCoords);
+      //gameUpdate[0] = player's new state
+      //gameUpdate[1] = enemies's new state
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -100,7 +107,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: playerUpdate
+          player: gameUpdate[0],
+          enemies: gameUpdate[1] || state.enemies
         }
       }
     }
@@ -110,7 +118,7 @@ export default function(state = initialState, action){
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
       let newCoords = [currRow + 1, currCol];
-      let playerUpdate = updatePlayerObject(state, newCoords);
+      let gameUpdate = updateGameObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -118,7 +126,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: playerUpdate
+          player: gameUpdate[0],
+          enemies: gameUpdate[1] || state.enemies
         }
       }
     }
@@ -129,7 +138,7 @@ export default function(state = initialState, action){
       let newGrid = getNewGrid(state.grid, currRow, currCol);
 
       let newCoords = [currRow, currCol - 1];
-      let playerUpdate = updatePlayerObject(state, newCoords);
+      let gameUpdate = updateGameObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -137,7 +146,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: playerUpdate
+          player: gameUpdate[0],
+          enemies: gameUpdate[1] || state.enemies
         }
       }
     }
@@ -148,7 +158,7 @@ export default function(state = initialState, action){
       let newGrid = getNewGrid(state.grid, currRow, currCol)
 
       let newCoords = [currRow, currCol + 1];
-      let playerUpdate = updatePlayerObject(state, newCoords);
+      let gameUpdate = updateGameObject(state, newCoords);
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
@@ -156,7 +166,8 @@ export default function(state = initialState, action){
         return{
           ...state,
           grid: newGrid,
-          player: playerUpdate
+          player: gameUpdate[0],
+          enemies: gameUpdate[1] || state.enemies
         }
       }
     }
