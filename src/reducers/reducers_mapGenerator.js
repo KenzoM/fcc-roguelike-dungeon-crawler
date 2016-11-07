@@ -37,7 +37,7 @@ function didReachNewLevel(statePlayer, expPoints){
   return (diffExp <= 0)
 }
 
-function levelUpPlayer(statePlayer,  currentEXP){
+function levelUpPlayer(statePlayer){
   let newStatePlayer = {...statePlayer};
   newStatePlayer.level++; //level up the player
   newStatePlayer.attack += 5; //level attack 5 points
@@ -62,7 +62,7 @@ const updateGameObject = (state, newCoords) =>{
         let newExp = state.player.exp - actualEnemy[0].exp;
         //check if players EXP reached to a new level
         if (didReachNewLevel(state.player.exp, actualEnemy[0].exp)){
-          let newLevel = levelUpPlayer(state.player, newExp);
+          let newLevel = levelUpPlayer(state.player);
           statePlayer = {...state.player, health: resultBattle[0],
                             coords: newCoords, attack: newLevel[0],
                             exp: newLevel[1], level: newLevel[2] }
