@@ -13,7 +13,8 @@ function ItemsConstructor(){
 
 function EnemyConstructor(){
   this.coords = null;
-  this.level = 1 ;
+  this.health = 20;
+  this.level = 1;
   this.strength = 1;
 }
 
