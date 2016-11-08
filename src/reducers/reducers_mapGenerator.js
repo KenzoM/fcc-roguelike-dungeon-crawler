@@ -1,4 +1,4 @@
-import initialState from './initialState'
+import initialState from '../preload/initialState'
 
 //ACTIONS
 let PRESS_UP = "PRESS_UP";
