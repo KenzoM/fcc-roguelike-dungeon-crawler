@@ -8,7 +8,7 @@ function WeaponsConstructor(name, coords, damage){
 }
 
 function ItemsConstructor(name, coords, health){
-  this.name = name
+  this.name = name;
   this.coords = coords;
   this.health = health;
 };
@@ -21,25 +21,23 @@ function EnemyConstructor(health, level, exp, strength, coords){
   this.strength = strength;
 }
 
-let initialState = {
-  grid : null,
-  player : {
+function Game(){
+  this.grid = null;
+  this.player = {
     coords : null,
     health : 100 ,
     weapon : "Stick",
     exp: 100,
     level: 1,
     attack: 10
-  },
-  enemies : [],
-  weapons : [],
-  items : [],
-  dungeon: 1
+  }
+  this.enemies = [];
+  this.weapons = [];
+  this.items = [];
+  this.dungeon = 1
 }
 
-initialState.grid = mapGenerator(20,20);
-
-function mapGenerator(width, height){
+Game.prototype.mapGenerator = function(width, height) {
   var result = [];
   for (var i = 0 ; i < width; i++) {
     result[i] = [];
@@ -52,18 +50,17 @@ function mapGenerator(width, height){
       }
     }
   }
-  return result;
-}
+  this.grid = result;
+};
 
-const placeThing = (type, thing) => {
-  let { grid } = initialState
-
-  let availableCoords = initialState.grid
+Game.prototype.placeThing = function(type, thing){
+  let { grid } = this;
+  let availableCoords = this.grid
     .map( (row, rowIndex, rowArr) => {
-      return row.map( (cellVal, colIndex, cellArr) => [rowIndex,colIndex] )
-    }) // return grid with [rowIndex, colIndex]
-    .reduce((a,b) => a.concat(b), []) // flatten to 1D array
-    .filter( (el) => grid[el[0]][el[1]] === 1) // filter to available cells
+      return row.map( (celVal, colIndex, cellArr) => [rowIndex, colIndex])
+    })
+    .reduce((a,b) => a.concat(b), [])
+    .filter( (el) => grid[el[0]][el[1]] === 1)
 
   let randCoords = availableCoords[Math.floor(Math.random() * availableCoords.length)];
 
@@ -95,17 +92,24 @@ const placeThing = (type, thing) => {
   }
 }
 
-initialState.weapons = weapons[initialState.dungeon - 1]
-  .map( weapon => placeThing("weapon", weapon))
+function initializeGame(){
+  let newGame = new Game();
+  newGame.mapGenerator(20,20);
 
-initialState.items = items[initialState.dungeon -1]
-  .map( item => placeThing("item", item))
+  newGame.weapons = weapons[newGame.dungeon - 1]
+    .map( weapon => newGame.placeThing("weapon", weapon))
 
-initialState.enemies = enemies[initialState.dungeon - 1]
-  .map( enemy => placeThing("enemy", enemy))
+  newGame.items = items[newGame.dungeon -1]
+    .map( item => newGame.placeThing("item", item))
 
-initialState.player = {...initialState.player, coords: placeThing("player")}
+  newGame.enemies = enemies[newGame.dungeon - 1]
+    .map( enemy => newGame.placeThing("enemy", enemy))
 
+  newGame.player.coords = newGame.placeThing("player")
+  return newGame;
+}
 
+////Initialize the state
+let initialState = initializeGame();
 
-export default initialState;
+export {initialState, Game };

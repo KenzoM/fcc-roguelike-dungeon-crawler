@@ -1,5 +1,5 @@
-import initialState from '../preload/initialState'
-
+import {initialState, Game }from '../preload/initialState'
+import { items, enemies, weapons } from '../preload/gameObjects';
 //ACTIONS
 let PRESS_UP = "PRESS_UP";
 let PRESS_DOWN = "PRESS_DOWN";
@@ -45,6 +45,23 @@ function levelUpPlayer(statePlayer){
   return [newStatePlayer.attack, newStatePlayer.exp, newStatePlayer.level];
 }
 
+function newGame(){
+  let newInitialGame = new Game();
+  newInitialGame.mapGenerator(20,20);
+
+  newInitialGame.weapons = weapons[newInitialGame.dungeon - 1]
+    .map( weapon => newInitialGame.placeThing("weapon", weapon))
+
+  newInitialGame.items = items[newInitialGame.dungeon -1]
+    .map( item => newInitialGame.placeThing("item", item))
+
+  newInitialGame.enemies = enemies[newInitialGame.dungeon - 1]
+    .map( enemy => newInitialGame.placeThing("enemy", enemy))
+
+  newInitialGame.player.coords = newInitialGame.placeThing("player")
+  return newInitialGame;
+}
+
 const updateGameObject = (state, newCoords) =>{
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
@@ -73,8 +90,7 @@ const updateGameObject = (state, newCoords) =>{
         return [statePlayer, stateEnemies]
 
       } else if (resultBattle[0] <= 0) { // case2: if player dies
-        console.log("GAME OVER") //restart the game ... NEED TO UPDATE THIS
-        return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
+        return [null,null]
       }
       else{ //case no one dies -> update their damaged health
         return [{...state.player, health: resultBattle[0]}, stateEnemies]
@@ -128,13 +144,15 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
-      } else{
+      } else if(gameUpdate[0]){
         return{
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies
         }
+      } else{
+        return newGame();
       }
     }
     case PRESS_DOWN: {
@@ -147,13 +165,15 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
-      } else{
+      } else if(gameUpdate[0]){
         return{
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies
         }
+      } else{
+        return newGame();
       }
     }
 
@@ -167,13 +187,15 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
-      } else{
+      } else if(gameUpdate[0]){
         return{
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies
         }
+      } else{
+        return newGame();
       }
     }
 
@@ -187,13 +209,15 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
-      } else{
+      } else if(gameUpdate[0]){
         return{
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies
         }
+      } else{
+        return newGame();
       }
     }
     default:
