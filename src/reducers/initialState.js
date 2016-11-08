@@ -38,7 +38,8 @@ let initialState = {
   },
   enemies : [],
   weapons : [],
-  items : []
+  items : [],
+  dungeon: 1
 }
 
 initialState.grid = mapGenerator(20,20);
@@ -64,41 +65,68 @@ initialState.items = placeThings("item", 3);
 initialState.enemies = placeThings("enemy", 4)
 
 
-let weapons = [{name:"knife", damage: 2},{name: "shotgun", damage: 3}]
+const weapons = [
+	[ // dungeon 1 weapons
+		{ name: "knife", damage: 2, coords: null},
+		{ name: "sword", damage: 3, coords: null}
+	],
+	[ // dungeon 2 weapons
+		{ name: "crossbow", damage: 4, coords: null },
+		{ name: "pistol", damage: 5, coords: null }
+	],
+	[ // dungeon 3 weapons
+		{name: "shotgun", damage: 6, coords: null}
+	]
+]
 
-initialState.weapons = weapons.map( weapon => placeThing("weapon", weapon))
 
-function placeThing(thing, weapon) {
-  let availableCoords = initialState.grid.map( (row, rowIndex) => {
-    return row.map( (cell, colIndex) => {
-      if (cell === 1) {
-        return [rowIndex, colIndex]
-      }
-    })
+initialState.weapons = weapons[initialState.dungeon - 1]
+  .map( weapon => placeThing("weapon", weapon) )
+
+
+
+function placeThing(type, thing) {
+  let { grid } = initialState
+
+  let availableCoords = initialState.grid.map( (row, rowIndex, rowArr) => {
+    return row.map( (cellVal, colIndex, cellArr) => {
+      return [rowIndex,colIndex]
+    } )
+  })
+  .reduce((a,b) => a.concat(b), [])
+  .filter( (element, index, arr) => {
+    return initialState.grid[element[0]][element[1]] === 1
   })
 
   let randCoords = availableCoords[Math.floor(Math.random() * availableCoords.length)];
 
-  switch (thing) {
+  console.log(randCoords)
+
+  switch (type) {
     case "enemy": {
+      // set grid value
       grid[randCoords[0]][randCoords[1]] = 2;
+      // create new thing
       let newEnemy = new EnemyConstructor();
-      newEnemy.coords = coord
+      // set new thing coords
+      newEnemy.coords = randCoords
       return newEnemy
     }
     case "item": {
       grid[randCoords[0]][randCoords[1]] = 3;
       let newItem = new ItemsConstructor();
-      newItem.coords = coord
-      return
+      newItem.coords = randCoords
+      return newItem
     }
     case "weapon": {
       grid[randCoords[0]][randCoords[1]] = 4
-      let newWeapon = createWeapon(weapon.name, randCoords, weapon.damage)
-      newWeapon.coords = coord
+      let newWeapon = createWeapon(thing.name, randCoords, thing.damage)
+      newWeapon.coords = randCoords
+      return newWeapon
     }
+    default:
+    return
   }
-
 }
 
 
