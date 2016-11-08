@@ -10,6 +10,7 @@ class MapGenerator extends Component {
     super(props);
     this.renderTiles = this.renderTiles.bind(this);
     this.getCoords = this.getCoords.bind(this);
+    this.onClickToggleLights = this.onClickToggleLights.bind(this);
   }
 
   componentDidMount(){
@@ -26,7 +27,7 @@ class MapGenerator extends Component {
 
   renderTiles(cellVal,row,column) {
     let player;
-    let playerCoords = this.props.player.coords
+    let playerCoords = this.props.player.coords; //here it tell us the exact location of the player
     playerCoords[0] === row && playerCoords[1] === column ? player = 1 : player = 0;
     return (
       <Tiles
@@ -38,16 +39,27 @@ class MapGenerator extends Component {
     )
   };
 
+  onClickToggleLights(){
+    if (this.props.lights){
+      return <div>Turn off lights</div>
+    } else{
+      return (
+        <svg viewBox="0 0 1000 1000">
+          {this.props.grid.map( (row, rowIndex) =>(
+            row.map( (cellVal, colIndex) => (
+              this.renderTiles(cellVal,rowIndex,colIndex)
+            ))
+          ))}
+        </svg>
+      )
+    }
+  }
+
   render(){
-    console.log(this.props)
     return (
-      <svg viewBox="0 0 1000 1000">
-        {this.props.grid.map( (row, rowIndex) =>(
-          row.map( (cellVal, colIndex) => (
-            this.renderTiles(cellVal,rowIndex,colIndex)
-          ))
-        ))}
-      </svg>
+      <div>
+        {this.onClickToggleLights()}
+      </div>
     )
   }
 }
