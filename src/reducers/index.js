@@ -4,7 +4,7 @@ import toggleLights from './reducers_toggleLights';
 
 const rootReducer = combineReducers({
   mapGenerated: mapGenerated,
-  ToggleLights: toggleLights
+  toggleLights: toggleLights
 });
 
 export default rootReducer;

@@ -35,7 +35,6 @@ function Game(){
   this.weapons = [];
   this.items = [];
   this.dungeon = 1;
-  this.lights = false;
 }
 
 Game.prototype.mapGenerator = function(width, height) {

@@ -39,6 +39,7 @@ class MapGenerator extends Component {
   };
 
   render(){
+    console.log(this.props)
     return (
       <svg viewBox="0 0 1000 1000">
         {this.props.grid.map( (row, rowIndex) =>(
@@ -61,7 +62,8 @@ function mapStateToProps(state) {
     enemies: state.mapGenerated.enemies,
     weapons: state.mapGenerated.weapons,
     items: state.mapGenerated.items,
-    player: state.mapGenerated.player
+    player: state.mapGenerated.player,
+    lights: state.toggleLights
   };
 }
 

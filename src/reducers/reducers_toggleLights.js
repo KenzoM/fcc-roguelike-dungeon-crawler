@@ -1,12 +1,12 @@
 //ACTIONS
 let TOGGLE_LIGHTS = "TOGGLE_LIGHTS";
+let initialState = false
 
-export default function(state = false, action){
+export default function(state = initialState, action){
   switch (action.type) {
     case TOGGLE_LIGHTS:{
-      console.log('switch the state light');
-      let newLightState = state.lights === true ? false : true
-      return {...state, lights: newLightState }
+      let newLightState = state === true ? false : true
+      return newLightState
     }
     default:
       return state;
