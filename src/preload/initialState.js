@@ -92,19 +92,24 @@ Game.prototype.placeThing = function(type, thing){
   }
 }
 
-let initialState = new Game();
-initialState.mapGenerator(20,20);
+function initializeGame(){
+  let newGame = new Game();
+  newGame.mapGenerator(20,20);
 
+  newGame.weapons = weapons[newGame.dungeon - 1]
+    .map( weapon => newGame.placeThing("weapon", weapon))
 
-initialState.weapons = weapons[initialState.dungeon - 1]
-  .map( weapon => initialState.placeThing("weapon", weapon))
+  newGame.items = items[newGame.dungeon -1]
+    .map( item => newGame.placeThing("item", item))
 
-initialState.items = items[initialState.dungeon -1]
-  .map( item => initialState.placeThing("item", item))
+  newGame.enemies = enemies[newGame.dungeon - 1]
+    .map( enemy => newGame.placeThing("enemy", enemy))
 
-initialState.enemies = enemies[initialState.dungeon - 1]
-  .map( enemy => initialState.placeThing("enemy", enemy))
+  newGame.player.coords = newGame.placeThing("player")
+  return newGame;
+}
 
-initialState.player = {...initialState.player, coords: initialState.placeThing("player")}
+////Initialize the state
+let initialState = initializeGame();
 
-export default initialState;
+export {initialState, Game };
