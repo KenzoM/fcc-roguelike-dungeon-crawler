@@ -17,19 +17,32 @@ const getPlayerAttack = (level, weaponDamage) => {
   return damage;
 }
 
-const randPlayerDamage = (damage) => {
-  // randomizes attack damage + or - 20%
-  let max = damage + damage * 0.2
-  let min = damage - damage * 0.2
+const randDamage = (damage, limit) => {
+  // randomizes attack damage + or - limit %
+  let max = damage + damage * limit
+  let min = damage - damage * limit
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function attackEnemy(player,enemy){
-  let playerDamage = randPlayerDamage(player.attack); //write a function that damage randomly
-  let enemyDamage = enemy.strength; //etc
+  let playerDamage = randDamage(player.attack, 0.2);
+  let enemyDamage = randDamage(enemy.strength, 0.1);
   let playerHealth = player.health - enemyDamage;
   let enemyHealth = enemy.health - playerDamage;
   return([playerHealth, enemyHealth])
+}
+
+function didReachNewLevel(statePlayer, expPoints){
+  let diffExp = statePlayer - expPoints;
+  return (diffExp <= 0)
+}
+
+function levelUpPlayer(statePlayer){
+  let newStatePlayer = {...statePlayer};
+  newStatePlayer.level++; //level up the player
+  newStatePlayer.attack += 5; //level attack 5 points
+  newStatePlayer.exp = 100; //reset back to 100 exp
+  return [newStatePlayer.attack, newStatePlayer.exp, newStatePlayer.level];
 }
 
 const updateGameObject = (state, newCoords) =>{
@@ -42,12 +55,23 @@ const updateGameObject = (state, newCoords) =>{
         return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
-      //resultBattle[0] = player's Health
-      //resultBattle[1] = enemy's Health
       actualEnemy[0].health = resultBattle[1];
 
-      if (resultBattle[1] <= 0){  // case1: if player kills an Enemy
-        return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
+      if (resultBattle[1] <= 0 && resultBattle[0] > 0){  // case1: if player kills an Enemy
+        let statePlayer;
+        let newExp = state.player.exp - actualEnemy[0].exp;
+        //check if players EXP reached to a new level
+        if (didReachNewLevel(state.player.exp, actualEnemy[0].exp)){
+          let newLevel = levelUpPlayer(state.player);
+          statePlayer = {...state.player, health: resultBattle[0],
+                            coords: newCoords, attack: newLevel[0],
+                            exp: newLevel[1], level: newLevel[2] }
+        } else{
+          statePlayer = {...state.player, health: resultBattle[0],
+                            coords: newCoords, exp: newExp }
+        }
+        return [statePlayer, stateEnemies]
+
       } else if (resultBattle[0] <= 0) { // case2: if player dies
         console.log("GAME OVER") //restart the game ... NEED TO UPDATE THIS
         return [{...state.player, health: resultBattle[0], coords: newCoords}, stateEnemies]
