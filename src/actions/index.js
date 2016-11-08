@@ -28,6 +28,12 @@ const listenToWindowEvent = () => {
   };
 }
 
+export function switchLight(){
+  return {
+    type: "TOGGLE_LIGHTS"
+  }
+}
+
 
 // ACTIONS
 

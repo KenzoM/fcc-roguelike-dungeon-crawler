@@ -28,7 +28,6 @@ export default class Tiles extends Component {
     const col = this.props.column * 50;
 
     if (this.props.player === 1) { tile = "player" }
-
     return (
       <rect x={col} y={row} width="50" height="50" className={tile}/>
     )

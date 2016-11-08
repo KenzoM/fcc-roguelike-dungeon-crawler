@@ -10,12 +10,10 @@ class MapGenerator extends Component {
     super(props);
     this.renderTiles = this.renderTiles.bind(this);
     this.getCoords = this.getCoords.bind(this);
-    // this.playerMove = this.playerMove.bind(this);
   }
 
   componentDidMount(){
     this.props.listenToWindowEvent();
-    // window.addEventListener('keydown', this.playerMove, false);
   }
 
   getCoords(things) {
@@ -27,12 +25,9 @@ class MapGenerator extends Component {
   }
 
   renderTiles(cellVal,row,column) {
-
     let player;
     let playerCoords = this.props.player.coords
-
     playerCoords[0] === row && playerCoords[1] === column ? player = 1 : player = 0;
-
     return (
       <Tiles
         cell={cellVal}
