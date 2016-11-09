@@ -1,5 +1,5 @@
 import {initialState, Game }from '../preload/initialState'
-import { items, enemies, weapons } from '../preload/gameObjects';
+import { items, enemies, weapons, boss } from '../preload/gameObjects';
 //ACTIONS
 let PRESS_UP = "PRESS_UP";
 let PRESS_DOWN = "PRESS_DOWN";
@@ -66,7 +66,9 @@ function newGame(nextDungeon){
   newInitialGame.player.coords = newInitialGame.placeThing("player")
 
   if (dungeon < weapons.length) {
-    newInitialGame.goal = newInitialGame.placeThing("goal")
+    newInitialGame.goal = newInitialGame.placeThing("goal");
+  } else{
+    newInitialGame.boss = newInitialGame.placeThing("boss", boss)
   }
 
   return newInitialGame;

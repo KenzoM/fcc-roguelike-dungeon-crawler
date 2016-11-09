@@ -20,6 +20,11 @@ function EnemyConstructor(health, level, exp, strength, coords){
   this.exp = exp;
   this.strength = strength;
 }
+function BossConstructor(health, strength, coords){
+  this.coords = coords;
+  this.health = health;
+  this.strength = strength;
+}
 
 function Game(){
   this.grid = null;
@@ -32,6 +37,7 @@ function Game(){
     attack: 10
   }
   this.enemies = [];
+  this.boss = null;
   this.weapons = [];
   this.items = [];
   this.dungeon = 1;
@@ -88,6 +94,12 @@ Game.prototype.placeThing = function(type, thing){
       grid[randCoords[0]][randCoords[1]] = 5
       return randCoords
     }
+    case "boss": {
+      let {health, strength } = thing;
+      grid[randCoords[0]][randCoords[1]] = 6;
+      let newBoss = new BossConstructor(health, strength, randCoords)
+      return newBoss
+    }
     case "player": {
       return randCoords
     }
@@ -110,8 +122,9 @@ function initializeGame(){
     .map( enemy => newGame.placeThing("enemy", enemy))
 
   newGame.player.coords = newGame.placeThing("player")
-
+  // newGame.boss = newGame.placeThing("boss", boss)
   newGame.goal = newGame.placeThing("goal")
+
   return newGame;
 }
 
