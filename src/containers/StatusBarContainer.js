@@ -4,7 +4,8 @@ import StatusBar from '../components/StatusBar'
 
 const mapStateToProps = (state) => {
   return {
-    player: state.mapGenerated.player
+    player: state.mapGenerated.player,
+    dungeon: state.mapGenerated.dungeon
   };
 }
 
