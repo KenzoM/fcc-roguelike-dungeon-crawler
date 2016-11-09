@@ -99,13 +99,13 @@ function updateGameObject(state, newCoords){
           statePlayer = {...state.player, health: resultBattle[0],
                             coords: newCoords, exp: newExp }
         }
-        return [statePlayer, stateEnemies]
+        return [statePlayer, stateEnemies, null]
 
       } else if (resultBattle[0] <= 0) { // case2: if player dies
         return [null,null]
       }
       else{ //case no one dies -> update their damaged health
-        return [{...state.player, health: resultBattle[0]}, stateEnemies]
+        return [{...state.player, health: resultBattle[0]}, stateEnemies, null]
       }
     }
     case 3:{ //item
@@ -114,7 +114,7 @@ function updateGameObject(state, newCoords){
         return item.coords[0] === newCoords[0] && item.coords[1] === newCoords[1]
       })
       playerHealth += actualItem[0].health;
-      return [{...state.player, health: playerHealth, coords: newCoords},null]
+      return [{...state.player, health: playerHealth, coords: newCoords}, null, null]
     }
     case 4:{ //weapon
       let playerWeapon = state.player.weapon;
@@ -123,7 +123,23 @@ function updateGameObject(state, newCoords){
       })
       playerWeapon = actualWeapon[0].name;
       let newAttack = getPlayerAttack(state.player.level, actualWeapon[0].damage)
-      return [{...state.player, attack: newAttack, weapon: playerWeapon, coords: newCoords},null]
+      return [{...state.player, attack: newAttack, weapon: playerWeapon, coords: newCoords}, null, null]
+    }
+    case 6:{
+      let actualPlayer = state.player;
+      let actualBoss = {...state.boss};
+      let resultBattle = attackEnemy(actualPlayer, actualBoss);
+      actualBoss.health = resultBattle[1];
+      if (resultBattle[1] <= 0 && resultBattle[0] > 0){  // case1: if player kills the boss
+        console.log('you win!')
+        return [null,null];
+      } else if (resultBattle[0] <= 0) { // case2: if player dies against boss
+        console.log('game over. Start over!')
+        return [null,null]
+      } else{ //case3:  no one dies -> update their damaged health
+        console.log('fight boss still on')
+        return [{...state.player, health: resultBattle[0]}, null, actualBoss]
+      }
     }
     default:
       return [{...state.player, coords: newCoords}, null]
@@ -169,7 +185,8 @@ export default function(state = initialState, action){
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
-          enemies: gameUpdate[1] || state.enemies
+          enemies: gameUpdate[1] || state.enemies,
+          boss: gameUpdate[2] || state.boss
         }
       } else{
         return newGame();
@@ -198,7 +215,8 @@ export default function(state = initialState, action){
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
-          enemies: gameUpdate[1] || state.enemies
+          enemies: gameUpdate[1] || state.enemies,
+          boss: gameUpdate[2] || state.boss
         }
       } else{
         return newGame();
@@ -228,7 +246,8 @@ export default function(state = initialState, action){
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
-          enemies: gameUpdate[1] || state.enemies
+          enemies: gameUpdate[1] || state.enemies,
+          boss: gameUpdate[2] || state.boss
         }
       } else{
         return newGame();
@@ -258,7 +277,8 @@ export default function(state = initialState, action){
           ...state,
           grid: newGrid,
           player: gameUpdate[0],
-          enemies: gameUpdate[1] || state.enemies
+          enemies: gameUpdate[1] || state.enemies,
+          boss: gameUpdate[2] || state.boss
         }
       } else{
         return newGame();

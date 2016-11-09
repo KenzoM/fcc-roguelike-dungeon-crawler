@@ -34,7 +34,7 @@ function Game(){
     weapon : "Stick",
     exp: 100,
     level: 1,
-    attack: 10
+    attack: 100
   }
   this.enemies = [];
   this.boss = null;
@@ -122,7 +122,7 @@ function initializeGame(){
     .map( enemy => newGame.placeThing("enemy", enemy))
 
   newGame.player.coords = newGame.placeThing("player")
-  // newGame.boss = newGame.placeThing("boss", boss)
+
   newGame.goal = newGame.placeThing("goal")
 
   return newGame;
