@@ -65,31 +65,12 @@ function newGame(nextDungeon){
 
   newInitialGame.player.coords = newInitialGame.placeThing("player")
 
-  newInitialGame.goal = newInitialGame.placeThing("goal")
+  if (dungeon < weapons.length) {
+    newInitialGame.goal = newInitialGame.placeThing("goal")
+  }
 
   return newInitialGame;
 }
-
-// function createNewDungeon(nextDungeon){
-//   let newDungeon = new Game();
-//   newDungeon.mapGenerator(20,20);
-//
-//   newDungeon.weapons = weapons[nextDungeon - 1]
-//     .map( weapon => newDungeon.placeThing("weapon", weapon))
-//
-//   newDungeon.items = items[nextDungeon - 1]
-//     .map( item => newDungeon.placeThing("item", item))
-//
-//   newDungeon.enemies = enemies[nextDungeon - 1]
-//     .map( enemy => newDungeon.placeThing("enemy", enemy))
-//
-//   newDungeon.player.coords = newDungeon.placeThing("player")
-//
-//   newDungeon.goal = newDungeon.placeThing("goal")
-//
-//   return newDungeon;
-// }
-
 
 function updateGameObject(state, newCoords){
   let thing = state.grid[newCoords[0]][newCoords[1]]
