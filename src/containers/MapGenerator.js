@@ -11,6 +11,7 @@ class MapGenerator extends Component {
     this.renderTiles = this.renderTiles.bind(this);
     this.getCoords = this.getCoords.bind(this);
     this.onClickToggleLights = this.onClickToggleLights.bind(this);
+    this.getDarkCoords = this.getDarkCoords.bind(this);
   }
 
   componentDidMount(){
@@ -25,6 +26,18 @@ class MapGenerator extends Component {
     }
   }
 
+  getDarkCoords(playerLocation, dungeonGrid){
+    let darkDungeonGrid = dungeonGrid.map((row,rowIndex) =>{
+      return row.map((celVal,colIndex) =>{
+        if (rowIndex === playerLocation[0] || colIndex === playerLocation[1]){
+          return celVal
+        } else{
+          return 5
+        }
+      })
+    })
+    return darkDungeonGrid;
+  }
   renderTiles(cellVal,row,column) {
     let player;
     let playerCoords = this.props.player.coords; //here it tell us the exact location of the player
@@ -40,8 +53,17 @@ class MapGenerator extends Component {
   };
 
   onClickToggleLights(){
+    let darkCoords = this.getDarkCoords(this.props.player.coords,this.props.grid);
     if (this.props.lights){
-      return <div>Turn off lights</div>
+      return (
+        <svg viewBox="0 0 1000 1000">
+          {darkCoords.map( (row, rowIndex) =>(
+            row.map( (cellVal, colIndex) => (
+              this.renderTiles(cellVal,rowIndex,colIndex)
+            ))
+          ))}
+        </svg>
+      )
     } else{
       return (
         <svg viewBox="0 0 1000 1000">
