@@ -35,7 +35,12 @@ svg {
 
 .player {
   fill: black;
-  stroke-width: white;
+  stroke: white;
+}
+
+.goal {
+  fill: orange;
+  stroke: white;
 }
 
 .enemy {
@@ -51,4 +56,9 @@ svg {
 .item {
   fill: green;
   stroke: white;
+}
+
+.dark {
+  fill: #440bce;
+  stroke: black;
 }

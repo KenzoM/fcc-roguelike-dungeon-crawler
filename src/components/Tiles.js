@@ -20,6 +20,12 @@ export default class Tiles extends Component {
       case 4:
         tile = "weapon"
         break;
+      case 5:
+        tile = "goal"
+        break;
+      case 6:
+        tile = "dark"
+        break;
       default:
         break;
     }
@@ -28,7 +34,6 @@ export default class Tiles extends Component {
     const col = this.props.column * 50;
 
     if (this.props.player === 1) { tile = "player" }
-
     return (
       <rect x={col} y={row} width="50" height="50" className={tile}/>
     )
