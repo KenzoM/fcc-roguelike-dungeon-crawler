@@ -84,6 +84,10 @@ Game.prototype.placeThing = function(type, thing){
       let newWeapon = new WeaponsConstructor(thing.name, randCoords, thing.damage)
       return newWeapon
     }
+    case "goal": {
+      grid[randCoords[0]][randCoords[1]] = 5
+      return randCoords
+    }
     case "player": {
       return randCoords
     }
@@ -106,6 +110,8 @@ function initializeGame(){
     .map( enemy => newGame.placeThing("enemy", enemy))
 
   newGame.player.coords = newGame.placeThing("player")
+
+  newGame.goal = newGame.placeThing("goal")
   return newGame;
 }
 

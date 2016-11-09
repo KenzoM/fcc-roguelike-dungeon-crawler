@@ -12,12 +12,16 @@ function validateWall(currentGrid,coordinates){
   return currentGrid[x][y] === 0
 }
 
-const getPlayerAttack = (level, weaponDamage) => {
+function reachedGoal(grid,coords){
+  return grid[coords[0]][coords[1]] === 5
+}
+
+function getPlayerAttack(level, weaponDamage){
   let damage = (level * 40) + (weaponDamage * 30)
   return damage;
 }
 
-const randDamage = (damage, limit) => {
+function randDamage(damage, limit){
   // randomizes attack damage + or - limit %
   let max = damage + damage * limit
   let min = damage - damage * limit
@@ -45,24 +49,49 @@ function levelUpPlayer(statePlayer){
   return [newStatePlayer.attack, newStatePlayer.exp, newStatePlayer.level];
 }
 
-function newGame(){
+function newGame(nextDungeon){
+  let dungeon = nextDungeon ? nextDungeon : 1
   let newInitialGame = new Game();
   newInitialGame.mapGenerator(20,20);
 
-  newInitialGame.weapons = weapons[newInitialGame.dungeon - 1]
+  newInitialGame.weapons = weapons[dungeon - 1]
     .map( weapon => newInitialGame.placeThing("weapon", weapon))
 
-  newInitialGame.items = items[newInitialGame.dungeon -1]
+  newInitialGame.items = items[dungeon - 1]
     .map( item => newInitialGame.placeThing("item", item))
 
-  newInitialGame.enemies = enemies[newInitialGame.dungeon - 1]
+  newInitialGame.enemies = enemies[dungeon - 1]
     .map( enemy => newInitialGame.placeThing("enemy", enemy))
 
   newInitialGame.player.coords = newInitialGame.placeThing("player")
+
+  newInitialGame.goal = newInitialGame.placeThing("goal")
+
   return newInitialGame;
 }
 
-const updateGameObject = (state, newCoords) =>{
+// function createNewDungeon(nextDungeon){
+//   let newDungeon = new Game();
+//   newDungeon.mapGenerator(20,20);
+//
+//   newDungeon.weapons = weapons[nextDungeon - 1]
+//     .map( weapon => newDungeon.placeThing("weapon", weapon))
+//
+//   newDungeon.items = items[nextDungeon - 1]
+//     .map( item => newDungeon.placeThing("item", item))
+//
+//   newDungeon.enemies = enemies[nextDungeon - 1]
+//     .map( enemy => newDungeon.placeThing("enemy", enemy))
+//
+//   newDungeon.player.coords = newDungeon.placeThing("player")
+//
+//   newDungeon.goal = newDungeon.placeThing("goal")
+//
+//   return newDungeon;
+// }
+
+
+function updateGameObject(state, newCoords){
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
     case 2:{ //engaging with enemy
@@ -144,6 +173,13 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
+      } else if (reachedGoal(state.grid, newCoords)){
+        let nextDungeon = state.dungeon + 1
+        return {
+          ...newGame(nextDungeon),
+          player: state.player,
+          dungeon: nextDungeon
+        }
       } else if(gameUpdate[0]){
         return{
           ...state,
@@ -165,6 +201,13 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
+      } else if (reachedGoal(state.grid, newCoords)){
+        let nextDungeon = state.dungeon + 1
+        return {
+          ...newGame(nextDungeon),
+          player: state.player,
+          dungeon: nextDungeon
+        }
       } else if(gameUpdate[0]){
         return{
           ...state,
@@ -187,6 +230,13 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
+      } else if (reachedGoal(state.grid, newCoords)){
+        let nextDungeon = state.dungeon + 1
+        return {
+          ...newGame(nextDungeon),
+          player: state.player,
+          dungeon: nextDungeon
+        }
       } else if(gameUpdate[0]){
         return{
           ...state,
@@ -209,6 +259,13 @@ export default function(state = initialState, action){
       let thereIsWall = validateWall(state.grid, newCoords);
       if (thereIsWall){
         return state
+      } else if (reachedGoal(state.grid, newCoords)){
+        let nextDungeon = state.dungeon + 1
+        return {
+          ...newGame(nextDungeon),
+          player: state.player,
+          dungeon: nextDungeon
+        }
       } else if(gameUpdate[0]){
         return{
           ...state,
