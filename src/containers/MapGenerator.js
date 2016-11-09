@@ -32,7 +32,7 @@ class MapGenerator extends Component {
         if (rowIndex === playerLocation[0] || colIndex === playerLocation[1]){
           return celVal
         } else{
-          return 5
+          return 6
         }
       })
     })

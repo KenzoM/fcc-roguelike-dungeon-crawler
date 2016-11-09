@@ -21,6 +21,9 @@ export default class Tiles extends Component {
         tile = "weapon"
         break;
       case 5:
+        tile = "goal"
+        break;
+      case 6:
         tile = "dark"
         break;
       default:
