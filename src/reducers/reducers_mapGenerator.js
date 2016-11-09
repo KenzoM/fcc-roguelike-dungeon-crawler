@@ -156,9 +156,10 @@ export default function(state = initialState, action){
         return state
       } else if (reachedGoal(state.grid, newCoords)){
         let nextDungeon = state.dungeon + 1
+        let newMap = newGame(nextDungeon)
         return {
-          ...newGame(nextDungeon),
-          player: state.player,
+          ...newMap,
+          player: {...state.player, coords: newMap.player.coords},
           dungeon: nextDungeon
         }
       } else if(gameUpdate[0]){
@@ -184,9 +185,10 @@ export default function(state = initialState, action){
         return state
       } else if (reachedGoal(state.grid, newCoords)){
         let nextDungeon = state.dungeon + 1
+        let newMap = newGame(nextDungeon)
         return {
-          ...newGame(nextDungeon),
-          player: state.player,
+          ...newMap,
+          player: {...state.player, coords: newMap.player.coords},
           dungeon: nextDungeon
         }
       } else if(gameUpdate[0]){
@@ -213,9 +215,10 @@ export default function(state = initialState, action){
         return state
       } else if (reachedGoal(state.grid, newCoords)){
         let nextDungeon = state.dungeon + 1
+        let newMap = newGame(nextDungeon)
         return {
-          ...newGame(nextDungeon),
-          player: state.player,
+          ...newMap,
+          player: {...state.player, coords: newMap.player.coords},
           dungeon: nextDungeon
         }
       } else if(gameUpdate[0]){
@@ -242,9 +245,10 @@ export default function(state = initialState, action){
         return state
       } else if (reachedGoal(state.grid, newCoords)){
         let nextDungeon = state.dungeon + 1
+        let newMap = newGame(nextDungeon)
         return {
-          ...newGame(nextDungeon),
-          player: state.player,
+          ...newMap,
+          player: {...state.player, coords: newMap.player.coords},
           dungeon: nextDungeon
         }
       } else if(gameUpdate[0]){
