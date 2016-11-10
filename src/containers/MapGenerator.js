@@ -12,6 +12,7 @@ class MapGenerator extends Component {
     this.onClickToggleLights = this.onClickToggleLights.bind(this);
     this.getDarkCoords = this.getDarkCoords.bind(this);
     this.getPeripheral = this.getPeripheral.bind(this);
+    this.getViewBox = this.getViewBox.bind(this);
   }
 
   componentDidMount(){
@@ -61,11 +62,33 @@ class MapGenerator extends Component {
     )
   };
 
+  getViewBox() {
+    let coords = this.props.player.coords
+    let width = 1000
+    let height = 1000
+    let cell = 50
+    let minX = coords[1]*cell-width/2
+    let minY = coords[0]*cell-height/2
+
+    if (coords[1] < width/cell/2) {
+      minX = 0
+    } // handles left side
+
+    if (coords[0] < height/cell/2) {
+      minY = 0
+    }// handles top
+
+    //TODO - handle right side and bottom
+    
+    return `${minX} ${minY} ${width} ${height}`
+  }
+
   onClickToggleLights(){
     let darkCoords = this.getDarkCoords(this.props.grid);
+
     if (this.props.lights){
       return (
-        <svg viewBox={`${this.props.player.coords[1]*50-500} ${this.props.player.coords[0]*50-500} 1000 1000`}>
+        <svg viewBox={this.getViewBox()}>
           {darkCoords.map( (row, rowIndex) =>(
             row.map( (cellVal, colIndex) => (
               this.renderTiles(cellVal,rowIndex,colIndex)
@@ -75,13 +98,15 @@ class MapGenerator extends Component {
       )
     } else{
       return (
-        <svg viewBox={`${this.props.player.coords[1]*50-500} ${this.props.player.coords[0]*50-500} 1000 1000`}>
-          {this.props.grid.map( (row, rowIndex) =>(
-            row.map( (cellVal, colIndex) => (
-              this.renderTiles(cellVal,rowIndex,colIndex)
-            ))
-          ))}
-        </svg>
+        <div>
+          <svg viewBox={this.getViewBox()}>
+            {this.props.grid.map( (row, rowIndex) =>(
+              row.map( (cellVal, colIndex) => (
+                this.renderTiles(cellVal,rowIndex,colIndex)
+              ))
+            ))}
+          </svg>
+        </div>
       )
     }
   }

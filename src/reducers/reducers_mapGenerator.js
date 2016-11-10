@@ -52,7 +52,7 @@ function levelUpPlayer(statePlayer){
 function newGame(nextDungeon){
   let dungeon = nextDungeon ? nextDungeon : 1
   let newInitialGame = new Game();
-  newInitialGame.mapGenerator(20,20);
+  newInitialGame.mapGenerator(30,30);
 
   newInitialGame.weapons = weapons[dungeon - 1]
     .map( weapon => newInitialGame.placeThing("weapon", weapon))
