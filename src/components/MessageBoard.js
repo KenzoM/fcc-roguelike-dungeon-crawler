@@ -3,7 +3,7 @@ import React from 'react';
 const MessageBoard = (props) => {
   let message = props.message
   return (
-    <div>{message}</div>
+    <p>{message}</p>
   )
 }
 
