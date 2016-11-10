@@ -13,6 +13,7 @@ class MapGenerator extends Component {
     this.getDarkCoords = this.getDarkCoords.bind(this);
     this.getPeripheral = this.getPeripheral.bind(this);
     this.getViewBox = this.getViewBox.bind(this);
+    this.setRowsCols = this.setRowsCols.bind(this);
   }
 
   componentDidMount(){
@@ -79,36 +80,28 @@ class MapGenerator extends Component {
     }// handles top
 
     //TODO - handle right side and bottom
-    
+
     return `${minX} ${minY} ${width} ${height}`
+  }
+
+  setRowsCols(row, rowIndex) {
+    return row.map( (cellVal, colIndex) => (
+        this.renderTiles(cellVal,rowIndex,colIndex)
+      ))
   }
 
   onClickToggleLights(){
     let darkCoords = this.getDarkCoords(this.props.grid);
 
-    if (this.props.lights){
-      return (
-        <svg viewBox={this.getViewBox()}>
-          {darkCoords.map( (row, rowIndex) =>(
-            row.map( (cellVal, colIndex) => (
-              this.renderTiles(cellVal,rowIndex,colIndex)
-            ))
-          ))}
-        </svg>
-      )
-    } else{
-      return (
-        <div>
-          <svg viewBox={this.getViewBox()}>
-            {this.props.grid.map( (row, rowIndex) =>(
-              row.map( (cellVal, colIndex) => (
-                this.renderTiles(cellVal,rowIndex,colIndex)
-              ))
-            ))}
-          </svg>
-        </div>
-      )
-    }
+    return (
+      <svg viewBox={this.getViewBox()}>
+        {
+          this.props.lights
+            ? darkCoords.map((row, rowIndex) => this.setRowsCols(row, rowIndex))
+            : this.props.grid.map((row, rowIndex) => this.setRowsCols(row, rowIndex))
+        }
+      </svg>
+    )
   }
 
   render(){
