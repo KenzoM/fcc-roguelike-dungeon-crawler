@@ -1,5 +1,12 @@
+body{
+  background: #A00C0C;
+}
 .app-container {
   max-width: 600px;
+}
+
+.status-bar {
+  min-width: 689px;
 }
 
 .status-bar  ul {
@@ -66,4 +73,20 @@ svg {
 .boss {
   fill: white;
   stroke: black;
+}
+
+.container{
+  min-width: 835px;
+  display: flex;
+}
+
+.dungeon-map{
+  width: 60%;
+}
+
+.message{
+  height: 250px;
+  width: 20%;
+  background: #e0dbdb;
+  padding: 0px 10px 0 10px;
 }

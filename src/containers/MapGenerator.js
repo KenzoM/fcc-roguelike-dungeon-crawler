@@ -88,7 +88,7 @@ class MapGenerator extends Component {
 
   render(){
     return (
-      <div>
+      <div className="dungeon-map">
         {this.onClickToggleLights()}
       </div>
     )
