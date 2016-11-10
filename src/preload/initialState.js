@@ -41,6 +41,7 @@ function Game(){
   this.weapons = [];
   this.items = [];
   this.dungeon = 1;
+  this.message = "";
 }
 
 Game.prototype.mapGenerator = function(width, height) {
@@ -113,17 +114,19 @@ function initializeGame(){
   newGame.mapGenerator(30,30);
 
   newGame.weapons = weapons[newGame.dungeon - 1]
-    .map( weapon => newGame.placeThing("weapon", weapon))
+    .map( weapon => newGame.placeThing("weapon", weapon));
 
   newGame.items = items[newGame.dungeon -1]
-    .map( item => newGame.placeThing("item", item))
+    .map( item => newGame.placeThing("item", item));
 
   newGame.enemies = enemies[newGame.dungeon - 1]
-    .map( enemy => newGame.placeThing("enemy", enemy))
+    .map( enemy => newGame.placeThing("enemy", enemy));
 
-  newGame.player.coords = newGame.placeThing("player")
+  newGame.player.coords = newGame.placeThing("player");
 
-  newGame.goal = newGame.placeThing("goal")
+  newGame.goal = newGame.placeThing("goal");
+
+  newGame.message = "Welcome to Dungeon Crawl!";
 
   return newGame;
 }

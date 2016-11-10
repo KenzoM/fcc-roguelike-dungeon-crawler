@@ -33,7 +33,7 @@ function attackEnemy(player,enemy){
   let enemyDamage = randDamage(enemy.strength, 0.1);
   let playerHealth = player.health - enemyDamage;
   let enemyHealth = enemy.health - playerDamage;
-  return([playerHealth, enemyHealth])
+  return([playerHealth, enemyHealth, enemyDamage])
 }
 
 function didReachNewLevel(statePlayer, expPoints){
@@ -63,7 +63,12 @@ function newGame(nextDungeon){
   newInitialGame.enemies = enemies[dungeon - 1]
     .map( enemy => newInitialGame.placeThing("enemy", enemy))
 
-  newInitialGame.player.coords = newInitialGame.placeThing("player")
+  newInitialGame.player.coords = newInitialGame.placeThing("player");
+  if (dungeon === 1){
+    newInitialGame.message = "You have been killed! Sorry~~"
+  } else{
+    newInitialGame.message = `You are now in Dungeon Level ${dungeon}`;
+  }
 
   if (dungeon < weapons.length) {
     newInitialGame.goal = newInitialGame.placeThing("goal");
@@ -80,32 +85,38 @@ function updateGameObject(state, newCoords){
     case 2:{ //engaging with enemy
       let stateEnemies = state.enemies.map(enemy => Object.assign({}, enemy)); //MAKE SHALLOW COPY
       let actualPlayer = state.player;
+
       let actualEnemy = stateEnemies.filter( enemy => {
         return enemy.coords[0] === newCoords[0] && enemy.coords[1] === newCoords[1]
       })
       let resultBattle = attackEnemy(actualPlayer,actualEnemy[0])
       actualEnemy[0].health = resultBattle[1];
+      let newMessage = `You lost ${resultBattle[2]} health points!  `
 
       if (resultBattle[1] <= 0 && resultBattle[0] > 0){  // case1: if player kills an Enemy
         let statePlayer;
         let newExp = state.player.exp - actualEnemy[0].exp;
+        newMessage += `You killed an enemy!  You gained ${actualEnemy[0].exp} EXP.  `
         //check if players EXP reached to a new level
         if (didReachNewLevel(state.player.exp, actualEnemy[0].exp)){
           let newLevel = levelUpPlayer(state.player);
           statePlayer = {...state.player, health: resultBattle[0],
                             coords: newCoords, attack: newLevel[0],
                             exp: newLevel[1], level: newLevel[2] }
+          newMessage += " You also leveled up!"
         } else{
           statePlayer = {...state.player, health: resultBattle[0],
                             coords: newCoords, exp: newExp }
         }
-        return [statePlayer, stateEnemies, null]
+        return [statePlayer, stateEnemies, null, newMessage]
 
       } else if (resultBattle[0] <= 0) { // case2: if player dies
         return [null,null]
       }
       else{ //case no one dies -> update their damaged health
-        return [{...state.player, health: resultBattle[0]}, stateEnemies, null]
+        newMessage += `You damaged enemy by ${resultBattle[1]} points!`
+        console.log(newMessage)
+        return [{...state.player, health: resultBattle[0]}, stateEnemies, null, newMessage]
       }
     }
     case 3:{ //item
@@ -114,7 +125,8 @@ function updateGameObject(state, newCoords){
         return item.coords[0] === newCoords[0] && item.coords[1] === newCoords[1]
       })
       playerHealth += actualItem[0].health;
-      return [{...state.player, health: playerHealth, coords: newCoords}, null, null]
+      let newMessage = `You gained extra ${actualItem[0].health} health points by eating a ${actualItem[0].name}`;
+      return [{...state.player, health: playerHealth, coords: newCoords}, null, null, newMessage]
     }
     case 4:{ //weapon
       let playerWeapon = state.player.weapon;
@@ -122,8 +134,9 @@ function updateGameObject(state, newCoords){
         return weapon.coords[0] === newCoords[0] && weapon.coords[1] === newCoords[1]
       })
       playerWeapon = actualWeapon[0].name;
-      let newAttack = getPlayerAttack(state.player.level, actualWeapon[0].damage)
-      return [{...state.player, attack: newAttack, weapon: playerWeapon, coords: newCoords}, null, null]
+      let newAttack = getPlayerAttack(state.player.level, actualWeapon[0].damage);
+      let newMessage = `You picked up a ${actualWeapon[0].name}!  You have ${newAttack} attack points  `
+      return [{...state.player, attack: newAttack, weapon: playerWeapon, coords: newCoords}, null, null, newMessage]
     }
     case 6:{
       let actualPlayer = state.player;
@@ -142,7 +155,8 @@ function updateGameObject(state, newCoords){
       }
     }
     default:
-      return [{...state.player, coords: newCoords}, null]
+      let newMessage = " "
+      return [{...state.player, coords: newCoords}, null, null, newMessage]
   }
 }
 
@@ -186,7 +200,8 @@ export default function(state = initialState, action){
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies,
-          boss: gameUpdate[2] || state.boss
+          boss: gameUpdate[2] || state.boss,
+          message: gameUpdate[3] || state.message
         }
       } else{
         return newGame();
@@ -216,7 +231,8 @@ export default function(state = initialState, action){
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies,
-          boss: gameUpdate[2] || state.boss
+          boss: gameUpdate[2] || state.boss,
+          message: gameUpdate[3] || state.message
         }
       } else{
         return newGame();
@@ -247,7 +263,8 @@ export default function(state = initialState, action){
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies,
-          boss: gameUpdate[2] || state.boss
+          boss: gameUpdate[2] || state.boss,
+          message: gameUpdate[3] || state.message
         }
       } else{
         return newGame();
@@ -278,7 +295,8 @@ export default function(state = initialState, action){
           grid: newGrid,
           player: gameUpdate[0],
           enemies: gameUpdate[1] || state.enemies,
-          boss: gameUpdate[2] || state.boss
+          boss: gameUpdate[2] || state.boss,
+          message: gameUpdate[3] || state.message
         }
       } else{
         return newGame();
