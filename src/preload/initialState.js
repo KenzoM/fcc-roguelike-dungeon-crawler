@@ -98,7 +98,7 @@ Game.prototype.placeThing = function(type, thing){
 
 function initializeGame(){
   let newGame = new Game();
-  newGame.mapGenerator(20,20);
+  newGame.mapGenerator(50,50);
 
   newGame.weapons = weapons[newGame.dungeon - 1]
     .map( weapon => newGame.placeThing("weapon", weapon))

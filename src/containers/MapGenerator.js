@@ -65,7 +65,7 @@ class MapGenerator extends Component {
     let darkCoords = this.getDarkCoords(this.props.grid);
     if (this.props.lights){
       return (
-        <svg viewBox="0 0 1000 1000">
+        <svg viewBox={`${this.props.player.coords[1]*50-500} ${this.props.player.coords[0]*50-500} 1000 1000`}>
           {darkCoords.map( (row, rowIndex) =>(
             row.map( (cellVal, colIndex) => (
               this.renderTiles(cellVal,rowIndex,colIndex)
@@ -75,7 +75,7 @@ class MapGenerator extends Component {
       )
     } else{
       return (
-        <svg viewBox="0 0 1000 1000">
+        <svg viewBox={`${this.props.player.coords[1]*50-500} ${this.props.player.coords[0]*50-500} 1000 1000`}>
           {this.props.grid.map( (row, rowIndex) =>(
             row.map( (cellVal, colIndex) => (
               this.renderTiles(cellVal,rowIndex,colIndex)
