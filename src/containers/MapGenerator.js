@@ -36,7 +36,7 @@ class MapGenerator extends Component {
     } else if (playerLocation[0] === randomLocation[0] - 1 && playerLocation[1] === randomLocation[1] + 1){
       return celVal
     } else{
-      return 6
+      return 7
     }
   }
   getDarkCoords(dungeonGrid){

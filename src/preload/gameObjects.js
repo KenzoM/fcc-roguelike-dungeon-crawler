@@ -53,4 +53,7 @@ const enemies = [
   ]
 ]
 
-export { weapons, items, enemies }
+const boss = {health: 1000, strength: 500}
+
+
+export { weapons, items, enemies, boss }

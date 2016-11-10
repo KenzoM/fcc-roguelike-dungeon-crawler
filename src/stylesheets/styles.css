@@ -62,3 +62,8 @@ svg {
   fill: #440bce;
   stroke: black;
 }
+
+.boss {
+  fill: white;
+  stroke: black;
+}
