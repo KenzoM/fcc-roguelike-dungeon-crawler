@@ -65,21 +65,27 @@ class MapGenerator extends Component {
 
   getViewBox() {
     let coords = this.props.player.coords
-    let width = 1000
-    let height = 1000
+    let width = 1000 // svg width
+    let height = 1000 // svg height
     let cell = 50
-    let minX = coords[1]*cell-width/2
-    let minY = coords[0]*cell-height/2
+
+    let minX, minY
 
     if (coords[1] < width/cell/2) {
-      minX = 0
-    } // handles left side
+      minX =  0 // stops left side
+    } else if (coords[1] > this.props.gridWidth - width/cell/2) {
+      minX = width/2 // right side
+    } else {
+      minX = coords[1]*cell-width/2 // default (middle of grid)
+    }
 
     if (coords[0] < height/cell/2) {
-      minY = 0
-    }// handles top
-
-    //TODO - handle right side and bottom
+      minY = 0 // top
+    } else if (coords[0] > this.props.gridHeight - height/cell/2) {
+      minY = height/2 // bottom
+    } else {
+      minY = coords[0]*cell-height/2 // default
+    }
 
     return `${minX} ${minY} ${width} ${height}`
   }
@@ -124,7 +130,9 @@ function mapStateToProps(state) {
     weapons: state.mapGenerated.weapons,
     items: state.mapGenerated.items,
     player: state.mapGenerated.player,
-    lights: state.toggleLights
+    lights: state.toggleLights,
+    gridWidth: state.mapGenerated.gridWidth,
+    gridHeight: state.mapGenerated.gridHeight
   };
 }
 

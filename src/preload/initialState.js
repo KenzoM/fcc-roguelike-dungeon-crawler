@@ -42,9 +42,13 @@ function Game(){
   this.items = [];
   this.dungeon = 1;
   this.message = "";
+  this.gridWidth = 30;
+  this.gridHeight = 30;
 }
 
-Game.prototype.mapGenerator = function(width, height) {
+Game.prototype.mapGenerator = function() {
+  let width = this.gridWidth
+  let height = this.gridHeight
   var result = [];
   for (var i = 0 ; i < width; i++) {
     result[i] = [];
