@@ -1,8 +1,5 @@
 import { items, enemies, weapons } from './gameObjects'
 import Dungeon from './generator'
-// import Dungeon from './generator'
-
-console.log(Dungeon.map)
 
 //Function Constuctors..
 function WeaponsConstructor(name, coords, damage){
@@ -52,21 +49,9 @@ function Game(){
 
 // TODO: put generated map in here here
 Game.prototype.mapGenerator = function() {
-  // let width = this.gridWidth
-  // let height = this.gridHeight
-  // var result = [];
-  // for (var i = 0 ; i < width; i++) {
-  //   result[i] = [];
-  //   for (var j = 0; j < height; j++) {
-  //     if (i === 0 || i === (width - 1) || j === 0 || j === (height - 1)){
-  //       result[i][j] = 0;
-  //     }
-  //     else {
-  //       result[i][j] = 1;
-  //     }
-  //   }
-  // }
-  this.grid = Dungeon.map;
+  let newDungeon = new Dungeon();
+  newDungeon.Generate();
+  this.grid = newDungeon.map;
 };
 
 Game.prototype.placeThing = function(type, thing){
@@ -120,7 +105,7 @@ Game.prototype.placeThing = function(type, thing){
 
 function initializeGame(){
   let newGame = new Game();
-  newGame.mapGenerator(30,30);
+  newGame.mapGenerator();
 
   newGame.weapons = weapons[newGame.dungeon - 1]
     .map( weapon => newGame.placeThing("weapon", weapon));
