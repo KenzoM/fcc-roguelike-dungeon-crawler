@@ -18,9 +18,9 @@ let Dungeon = {
             }
         }
 
-        let room_count = Helpers.GetRandom(3, 6);
+        let room_count = Helpers.GetRandom(3, 10);
         let min_size = 3;
-        let max_size = 10;
+        let max_size = 12;
 
         for (let i = 0; i < room_count; i++) {
             let room = {};
@@ -165,33 +165,6 @@ let Dungeon = {
     }
 }
 
-// let Renderer = {
-//     canvas: null,
-//     ctx: null,
-//     size: 512,
-//     scale: 0,
-//     Initialize: function () {
-//         this.canvas = document.getElementById('canvas');
-//         this.canvas.width = this.size;
-//         this.canvas.height = this.size;
-//         this.ctx = this.canvas.getContext('2d');
-//         this.scale = this.canvas.width / Dungeon.map_size;
-//     },
-//     Update: function () {
-//         for (let y = 0; y < Dungeon.map_size; y++) {
-//             for (let x = 0; x < Dungeon.map_size; x++) {
-//                 let tile = Dungeon.map[x][y];
-//                 if (tile === 0) this.ctx.fillStyle = '#351330';
-//                 else if (tile === 1) this.ctx.fillStyle = '#64908A';
-//                 else this.ctx.fillStyle = '#424254';
-//                 this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
-//             }
-//         }
-//     }
-// };
-
 Dungeon.Generate();
-// Renderer.Initialize();
-// Renderer.Update(Dungeon.map);
 
 export default Dungeon
