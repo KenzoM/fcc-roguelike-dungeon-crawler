@@ -1,5 +1,6 @@
 import { Game } from '../preload/initialState'
 import { items, enemies, weapons, boss } from '../preload/gameObjects';
+import deepFreeze from 'deep-freeze'
 
 // function updateObject(oldObject, newValues) {
 //     // Encapsulate the idea of passing a new object as the first parameter
@@ -21,12 +22,6 @@ import { items, enemies, weapons, boss } from '../preload/gameObjects';
 //
 //     return updatedItems;
 // }
-
-function validateWall(currentGrid,coordinates){
-  let x = coordinates[0];
-  let y = coordinates[1];
-  return currentGrid[x][y] === 0
-}
 
 function reachedGoal(grid,coords){
   return grid[coords[0]][coords[1]] === 5
@@ -173,12 +168,13 @@ function engageBoss(state, newCoords){
   }
 }
 
-const getNewGrid = (grid, row, col) => {
+function updateGrid(grid, row, col){
+  let floorVal = 1
   return [
     ...grid.slice(0, row), // new row
     [
       ...grid[row].slice(0, col),
-      1, // new val
+      floorVal,
       ...grid[row].slice(col + 1)
     ],
     ...grid.slice(row + 1)
@@ -186,6 +182,7 @@ const getNewGrid = (grid, row, col) => {
 }
 
 function updateGameObject(state, newCoords){
+  deepFreeze(state)
   let thing = state.grid[newCoords[0]][newCoords[1]]
   switch (thing) {
     case 2:
@@ -202,4 +199,10 @@ function updateGameObject(state, newCoords){
   }
 }
 
-export { getNewGrid, updateGameObject, validateWall, reachedGoal, newGame }
+export {
+  updateGrid,
+  updateGameObject,
+  reachedGoal,
+  newGame,
+  pickUpItem
+}
