@@ -1,13 +1,13 @@
 
 let Helpers = {
   GetRandom: function (low, high) {
-      return~~ (Math.random() * (high - low)) + low;
+    return~~ (Math.random() * (high - low)) + low;
   }
 };
 
 function Dungeon(){
-    this.map= null,
-    this.map_size= 30,
+    this.map= null;
+    this.map_size= 30;
     this.rooms= []
 }
 
