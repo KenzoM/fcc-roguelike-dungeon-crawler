@@ -7,7 +7,7 @@ let Helpers = {
 
 function Dungeon(){
     this.map= null;
-    this.map_size= 30;
+    this.map_size= 45;
     this.rooms= []
 }
 
@@ -20,7 +20,7 @@ Dungeon.prototype.Generate = function () {
     }
   }
 
-  let room_count = Helpers.GetRandom(5, 8);
+  let room_count = Helpers.GetRandom(14, 20);
   let min_size = 4;
   let max_size = 8;
 
@@ -40,9 +40,6 @@ Dungeon.prototype.Generate = function () {
     room.h--;
     this.rooms.push(room);
   }
-
-
-
   this.SquashRooms();
 
       // Now we start building corridors between rooms that are near to one

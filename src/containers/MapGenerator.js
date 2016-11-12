@@ -67,7 +67,7 @@ class MapGenerator extends Component {
     let coords = this.props.player.coords
     let width = 1000 // svg width
     let height = 1000 // svg height
-    let cell = 50
+    let cell = 40
 
     let minX, minY
 
