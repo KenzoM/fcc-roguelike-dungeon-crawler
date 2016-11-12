@@ -1,27 +1,6 @@
 import { Game } from '../preload/initialState'
 import { items, enemies, weapons, boss } from '../preload/gameObjects';
-import deepFreeze from 'deep-freeze'
-
-// function updateObject(oldObject, newValues) {
-//     // Encapsulate the idea of passing a new object as the first parameter
-//     // to Object.assign to ensure we correctly copy data instead of mutating
-//     return Object.assign({}, oldObject, newValues);
-// }
-//
-// function updateItemInArray(array, itemId, updateItemCallback) {
-//     const updatedItems = array.map(item => {
-//         if(item.id !== itemId) {
-//             // Since we only want to update one item, preserve all others as they are now
-//             return item;
-//         }
-//
-//         // Use the provided callback to create an updated item
-//         const updatedItem = updateItemCallback(item);
-//         return updatedItem;
-//     });
-//
-//     return updatedItems;
-// }
+import deepFreeze from 'deep-freeze';
 
 function reachedGoal(grid,coords){
   return grid[coords[0]][coords[1]] === 5
@@ -125,7 +104,6 @@ function engageEnemy(state, newCoords) { //engaging with enemy
   }
   else{ //case no one dies -> update their damaged health
     newMessage += `You damaged enemy by ${resultBattle[1]} points!`
-    console.log(newMessage)
     return [{...state.player, health: resultBattle[0]}, stateEnemies, null, newMessage]
   }
 }
