@@ -49,9 +49,11 @@ function Game(){
 
 // TODO: put generated map in here here
 Game.prototype.mapGenerator = function() {
-  let newDungeon = new Dungeon();
-  newDungeon.Generate();
-  this.grid = newDungeon.map;
+  while (this.grid === null){
+    let newDungeon = new Dungeon();
+    newDungeon.Generate();
+    this.grid = newDungeon.map;
+  }
 };
 
 Game.prototype.placeThing = function(type, thing){

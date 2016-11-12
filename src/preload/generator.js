@@ -7,7 +7,7 @@ let Helpers = {
 
 function Dungeon(){
     this.map= null;
-    this.map_size= 45;
+    this.map_size= 30;
     this.rooms= []
 }
 
@@ -20,9 +20,9 @@ Dungeon.prototype.Generate = function () {
     }
   }
 
-  let room_count = Helpers.GetRandom(5, 10);
-  let min_size = 7;
-  let max_size = 10;
+  let room_count = Helpers.GetRandom(5, 8);
+  let min_size = 4;
+  let max_size = 8;
 
   for (let i = 0; i < room_count; i++) {
     let room = {};
@@ -73,7 +73,7 @@ Dungeon.prototype.Generate = function () {
         else pointB.y++;
       }
 
-      this.map[pointB.x][pointB.y] = 1;
+      this.map[pointB.x][pointB.y] = 888;
     }
   }
 
@@ -84,7 +84,7 @@ Dungeon.prototype.Generate = function () {
     let room = this.rooms[i];
     for (let x = room.x; x < room.x + room.w; x++) {
       for (let y = room.y; y < room.y + room.h; y++) {
-          this.map[x][y] = 1;
+          this.map[x][y] = 888;
       }
     }
   }
@@ -97,7 +97,7 @@ Dungeon.prototype.Generate = function () {
 
   for (let x = 0; x < this.map_size; x++) {
     for (let y = 0; y < this.map_size; y++) {
-      if (this.map[x][y] === 1) {
+      if (this.map[x][y] === 888) {
         for (let xx = x - 1; xx <= x + 1; xx++) {
           for (let yy = y - 1; yy <= y + 1; yy++) {
               if (this.map[xx][yy] === 999) this.map[xx][yy] = 0;
@@ -105,6 +105,18 @@ Dungeon.prototype.Generate = function () {
         }
       }
     }
+  }
+
+  //we'll use flood-fill algorithm to avoid any dungeons that are disconnected
+  let rowFillIndex;
+  let colFillIndex = -1;
+  while (colFillIndex < 0){
+    rowFillIndex = Helpers.GetRandom(0, this.map_size);
+    colFillIndex = this.map[rowFillIndex].indexOf(888);
+  }
+  this.floodFill(rowFillIndex, colFillIndex);
+  if (this.map.reduce( (a,b) => (a.concat(b))).indexOf(888) !== -1){
+    this.map = null;
   }
 };
 
@@ -115,6 +127,23 @@ Dungeon.prototype.DoesCollide = function (room, ignore) {
     if (!((room.x + room.w < check.x) || (room.x > check.x + check.w) || (room.y + room.h < check.y) || (room.y > check.y + check.h))) return true;
   }
   return false;
+};
+
+Dungeon.prototype.floodFill = function (x,y) {
+  //termination case
+  if (x < 0 || y < 0 || x > this.map.length - 1 || y > this.map[0].length - 1 ){
+    return;
+  }
+  //base case
+  if (this.map[x][y] !== 888){
+    return;
+  }
+  //recursion
+  this.map[x][y] = 1; //fill it value of 1, which is floor
+  this.floodFill(x-1, y);
+  this.floodFill(x+1, y);
+  this.floodFill(x, y-1);
+  this.floodFill(x, y+1);
 };
 
 Dungeon.prototype.SquashRooms = function () {
