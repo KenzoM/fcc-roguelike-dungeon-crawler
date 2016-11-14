@@ -1,0 +1,98 @@
+body{
+  background: #A00C0C;
+}
+.app-container {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-bar {
+  // min-width: 689px;
+  width: 100%;
+  // max-width: 100%;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+  }
+
+  li {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+  }
+}
+
+.container{
+  // max-width: 835px;
+  display: flex;
+  .dungeon-map{
+    width: 70%;
+    margin: 0;
+  }
+
+  .message{
+    height: 250px;
+    width: 30%;
+    margin: 0;
+    background: #e0dbdb;
+    padding: 0px 10px 0 10px;
+  }
+}
+
+
+svg {
+  border: 1px solid black;
+
+  .wall{
+    fill: gray;
+    stroke: black;
+  }
+
+  .floor{
+    fill: skyblue;
+    stroke: white;
+  }
+
+  .player {
+    fill: gold;
+    stroke: white;
+  }
+
+  .goal {
+    fill: white;
+    stroke: white;
+  }
+
+  .enemy {
+    fill: red;
+    stroke: black;
+  }
+
+  .weapon {
+    fill: blue;
+    stroke: white;
+  }
+
+  .item {
+    fill: green;
+    stroke: white;
+  }
+
+  .dark {
+    fill: #440bce;
+    stroke: black;
+  }
+
+  .boss {
+    fill: darkred;
+    stroke: black;
+  }
+
+}

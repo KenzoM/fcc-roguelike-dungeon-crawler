@@ -3,7 +3,7 @@ import MapGenerator from '../containers/MapGenerator';
 import StatusBarContainer from '../containers/StatusBarContainer';
 import ToggleLights from '../containers/ToggleLights';
 import Message from '../containers/MessageContainer';
-import '../stylesheets/styles.css';
+import '../stylesheets/styles.scss';
 
 export default class App extends Component {
   render() {
