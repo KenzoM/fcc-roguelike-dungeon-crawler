@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MessageBoard from '../components/MessageBoard';
+import ToggleLights from '../containers/ToggleLights';
 
 class MessageContainer extends Component {
   constructor(props){
@@ -19,6 +20,7 @@ class MessageContainer extends Component {
     return(
       <div className="message">
         {this.renderMessages()}
+        <ToggleLights/>
       </div>
     )
   }
