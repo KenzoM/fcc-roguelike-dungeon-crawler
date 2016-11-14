@@ -1,4 +1,4 @@
-
+/* Credit to Big Bad Waffle : http://bigbadwofl.me/random-dungeon-generator/ */
 let Helpers = {
   GetRandom: function (low, high) {
     return~~ (Math.random() * (high - low)) + low;
@@ -42,12 +42,6 @@ Dungeon.prototype.Generate = function () {
   }
   this.SquashRooms();
 
-      // Now we start building corridors between rooms that are near to one
-      // another. We choose a random point in each room and then move the second
-      // point towards the first one (in the while loop). We set each corridor
-      // tile to 1 which can later be interpreted by the dungeon drawing
-      // algorithm as such.
-
   for (let i = 0; i < room_count; i++) {
     let roomA = this.rooms[i];
     let roomB = this.FindClosestRoom(roomA);
@@ -74,9 +68,6 @@ Dungeon.prototype.Generate = function () {
     }
   }
 
-      // Here we iterate through all the rooms and set the tile to 1 for every
-      // tile within a room.
-
   for (let i = 0; i < room_count; i++) {
     let room = this.rooms[i];
     for (let x = room.x; x < room.x + room.w; x++) {
@@ -85,12 +76,6 @@ Dungeon.prototype.Generate = function () {
       }
     }
   }
-
-
-      // This last part iterates through all the tiles in the map and if it
-      // finds a tile that is a floor (equal to 1) we check all the surrounding
-      // tiles for empty values. If we find an empty tile (that touches the floor)
-      // we build a wall (equal to 0).
 
   for (let x = 0; x < this.map_size; x++) {
     for (let y = 0; y < this.map_size; y++) {

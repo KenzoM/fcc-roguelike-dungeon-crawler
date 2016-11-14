@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Creepster|Montserrat');
 
 body{
-  background: #A00C0C;
+  background: #ab9a9a;
   header {
     font-family: 'Creepster', cursive;
     font-size: 2em;
+    text-align: center;
   }
 }
 .app-container {
@@ -21,12 +22,13 @@ body{
     margin: 0;
     padding: 0;
     overflow: hidden;
+    text-align: center;
     background-color: #333333;
   }
 
   li {
-      float: left;
-      display: block;
+      // float: left;
+      display: inline-block;
       color: white;
       text-align: center;
       padding: 12px;
