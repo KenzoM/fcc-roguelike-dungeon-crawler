@@ -43,8 +43,8 @@ function Game(){
   this.items = [];
   this.dungeon = 1;
   this.message = "";
-  this.gridWidth = 45;
-  this.gridHeight = 45;
+  this.gridWidth = 40;
+  this.gridHeight = 40;
 }
 
 // TODO: put generated map in here here
