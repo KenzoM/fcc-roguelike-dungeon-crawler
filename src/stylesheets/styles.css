@@ -28,52 +28,58 @@ body{
 
 svg {
   border: 1px solid black;
+
+  .wall{
+    fill: gray;
+    stroke: black;
+  }
+
+  .floor{
+    fill: skyblue;
+    stroke: white;
+  }
+
+  .player {
+    fill: black;
+    stroke: white;
+  }
+
+  .goal {
+    fill: orange;
+    stroke: white;
+  }
+
+  .enemy {
+    fill: red;
+    stroke: black;
+  }
+
+  .weapon {
+    fill: blue;
+    stroke: white;
+  }
+
+  .item {
+    fill: green;
+    stroke: white;
+  }
+
+  .dark {
+    fill: #440bce;
+    stroke: black;
+  }
+
+  .boss {
+    fill: white;
+    stroke: black;
+  }
 }
 
-.wall{
-  fill: gray;
-  stroke: black;
-}
 
-.floor{
-  fill: skyblue;
-  stroke: white;
-}
 
-.player {
-  fill: black;
-  stroke: white;
-}
 
-.goal {
-  fill: orange;
-  stroke: white;
-}
 
-.enemy {
-  fill: red;
-  stroke: black;
-}
 
-.weapon {
-  fill: blue;
-  stroke: white;
-}
-
-.item {
-  fill: green;
-  stroke: white;
-}
-
-.dark {
-  fill: #440bce;
-  stroke: black;
-}
-
-.boss {
-  fill: white;
-  stroke: black;
-}
 
 .container{
   min-width: 835px;
