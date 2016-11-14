@@ -1,6 +1,6 @@
 //ACTIONS
 let TOGGLE_LIGHTS = "TOGGLE_LIGHTS";
-let initialState = false;
+let initialState = true;
 
 export default function(state = initialState, action){
   switch (action.type) {

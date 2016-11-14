@@ -21,25 +21,27 @@ class MapGenerator extends Component {
   }
 
   getPeripheral(playerLocation,randomLocation,celVal){
-    if (randomLocation[0] === playerLocation[0] &&
-      ((randomLocation[1] >= playerLocation[1] - 2 && randomLocation[1] < playerLocation[1])
-      ||(randomLocation[1] <= playerLocation[1] + 2 && randomLocation[1] > playerLocation[1]))){
-      return celVal
-    } else if (randomLocation[1] === playerLocation[1] &&
-      ((randomLocation[0] >= playerLocation[0] - 2 && randomLocation[0] < playerLocation[0])
-      ||(randomLocation[0] <= playerLocation[0] + 2 && randomLocation[0] > playerLocation[0]))){
-      return celVal
-    } else if (playerLocation[0] === randomLocation[0] + 1 && playerLocation[1] === randomLocation[1] + 1){
-      return celVal
-    } else if (playerLocation[0] === randomLocation[0] - 1 && playerLocation[1] === randomLocation[1] - 1){
-      return celVal
-    } else if (playerLocation[0] === randomLocation[0] + 1 && playerLocation[1] === randomLocation[1] - 1){
-      return celVal
-    } else if (playerLocation[0] === randomLocation[0] - 1 && playerLocation[1] === randomLocation[1] + 1){
-      return celVal
-    } else{
-      return 7
+    let corners = 5;
+    let allNeighbors = [];
+    for(let i = 1; i <= corners; i++){
+      for (let j = 1; j <= corners; j++){
+        allNeighbors.push([playerLocation[0] + i, playerLocation[1] + j]);
+        allNeighbors.push([playerLocation[0] - i, playerLocation[1] - j]);
+        allNeighbors.push([playerLocation[0] + i, playerLocation[1] - j]);
+        allNeighbors.push([playerLocation[0] - i, playerLocation[1] + j]);
+        allNeighbors.push([playerLocation[0] + i, playerLocation[1]]);
+        allNeighbors.push([playerLocation[0] - i, playerLocation[1]]);
+        allNeighbors.push([playerLocation[0], playerLocation[1] + j]);
+        allNeighbors.push([playerLocation[0], playerLocation[1] - j]);
+      }
     }
+
+    for(let i = 0; i < allNeighbors.length; i++){
+      if (allNeighbors[i][0] === randomLocation[0] && allNeighbors[i][1] === randomLocation[1]){
+        return celVal;
+      }
+    }
+    return 7;
   }
   getDarkCoords(dungeonGrid){
     let darkDungeonGrid = dungeonGrid.map((row,rowIndex) =>{
@@ -64,12 +66,12 @@ class MapGenerator extends Component {
   };
 
   getViewBox() {
-    let coords = this.props.player.coords
-    let width = 1000 // svg width
-    let height = 1000 // svg height
-    let cell = 40
+    let coords = this.props.player.coords;
+    let width = 1000; // svg width
+    let height = 1000; // svg height
+    let cell = 40;
 
-    let minX, minY
+    let minX, minY;
 
     if (coords[1] < width/cell/2) {
       minX =  0 // stops left side
