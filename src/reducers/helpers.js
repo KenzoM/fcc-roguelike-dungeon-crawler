@@ -21,8 +21,8 @@ function randDamage(damage, limit){
 function attackEnemy(player,enemy){
   let playerDamage = randDamage(player.attack, 0.2);
   let enemyDamage = randDamage(enemy.strength, 0.1);
-  let playerHealth = player.health - enemyDamage;
-  let enemyHealth = enemy.health - playerDamage;
+  let playerHealth = Math.floor(player.health - enemyDamage);
+  let enemyHealth = Math.floor(enemy.health - playerDamage);
   return([playerHealth, enemyHealth, enemyDamage])
 }
 
