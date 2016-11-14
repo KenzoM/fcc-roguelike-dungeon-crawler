@@ -7,7 +7,7 @@ let Helpers = {
 
 function Dungeon(){
     this.map= null;
-    this.map_size= 45;
+    this.map_size= 35;
     this.rooms= []
 }
 
@@ -20,7 +20,7 @@ Dungeon.prototype.Generate = function () {
     }
   }
 
-  let room_count = Helpers.GetRandom(14, 20);
+  let room_count = Helpers.GetRandom(10, 15);
   let min_size = 4;
   let max_size = 8;
 
