@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 {
   "main.js": "static/js/main.667089f8.js",
   "main.js.map": "static/js/main.667089f8.js.map"
 }
+||||||| merged common ancestors
+=======
+{
+  "main.js": "static/js/main.96a427bf.js",
+  "main.js.map": "static/js/main.96a427bf.js.map"
+}
+>>>>>>> 914bac2c6826baa3fdfc08aad9f269b70a1aed4d
