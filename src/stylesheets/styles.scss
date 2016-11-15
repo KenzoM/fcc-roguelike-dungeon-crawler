@@ -110,3 +110,9 @@ svg {
   // background: #ecd2d2;
   color: black;
 }
+
+@media screen and (max-height: 800px) {
+  .app-container{
+    max-width: 51%;
+  }
+}
