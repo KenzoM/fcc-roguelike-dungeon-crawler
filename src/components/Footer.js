@@ -5,7 +5,7 @@ export default class Footer extends Component {
     return(
       <div className="footer">
         <p>Coded by <a href="https://github.com/knowellG">Noel</a> & <a href="https://github.com/neotriz">Kenzo</a> </p>
-        <p><a href="https://github.com/knowellG/fcc-roguelike-dungeon-crawler">Source Code</a></p>
+        <p><a href="https://github.com/Neotriz/fcc-roguelike-dungeon-crawler">Source Code</a></p>
       </div>
     )
   }
