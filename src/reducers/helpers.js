@@ -133,16 +133,18 @@ function engageBoss(state, newCoords){
   let actualPlayer = state.player;
   let actualBoss = {...state.boss};
   let resultBattle = attackEnemy(actualPlayer, actualBoss);
+  let newMessage;
   actualBoss.health = resultBattle[1];
+  newMessage = `You lost ${resultBattle[2]} health points!  `
   if (resultBattle[1] <= 0 && resultBattle[0] > 0){  // case1: if player kills the boss
-    console.log('you win!')
+    newMessage += "You win the game. CONGRATS!!  "
     return [null,null];
   } else if (resultBattle[0] <= 0) { // case2: if player dies against boss
-    console.log('game over. Start over!')
     return [null,null]
   } else{ //case3:  no one dies -> update their damaged health
-    console.log('fight boss still on')
-    return [{...state.player, health: resultBattle[0]}, null, actualBoss]
+    newMessage += `You damaged enemy by ${resultBattle[1]} points!   `
+    newMessage += "The final battle is still on!"
+    return [{...state.player, health: resultBattle[0]}, null, actualBoss, newMessage]
   }
 }
 
