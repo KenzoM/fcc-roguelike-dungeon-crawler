@@ -42,5 +42,5 @@ At the moment, the app does not render properly in mobile devices. Future work w
 
 
 ## Authors
-* **Noel Gonzalez **-    [knowellG](knowellG)
+* **Noel Gonzalez** -    [knowellG](knowellG)
 * **Kenzo Mendoza** -  [Neotriz](https://github.com/neotriz)
