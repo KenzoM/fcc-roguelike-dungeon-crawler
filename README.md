@@ -31,10 +31,19 @@ It meets the following criteria:
 
 1. Clone the repository
 2. `npm install`
-5. `npm start` for production environment
+3. `npm start` ==> it will automatically open your `localhost:3000`
+4. Have fun!
+
 
 ### Issues
 At the moment, the app does not render properly in mobile devices. Future work will be placed to fix this issue
+
+
+### Future work
+
+* Replace SVG with Animation Icons
+* Add modal window to indicate users if they've won/lost the game
+* Add more responsive styling for mobile devices
 
 ## Built With
 
